@@ -1,6 +1,10 @@
 인증키 : jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D
 
-http://openapi.lost112.go.kr/openapi/service/rest/
+http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/
+※ 
+http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/LosfundInfoInqireService?
+ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D
+
 습득물 정보 조회 서비스 : LosfundInfoInqireService
 <1> getLosfundInfoAccToClAreaPd : 분류별, 지역별, 기간별 습득물 정보 조회
 요청 메시지 명세
@@ -81,7 +85,7 @@ http://openapi.lost112.go.kr/openapi/service/rest/
 
 
 
-http://openapi.lost112.go.kr/openapi/service/rest/
+http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/
 분실물 정보 조회 서비스 : LostGoodsInfoInqireService
 
 <1> getLostGoodsInfoAccToClAreaPd : 분류별, 지역별, 기간별 분실물 정보 조회
@@ -142,7 +146,7 @@ http://openapi.lost112.go.kr/openapi/service/rest/
 
 
 
-http://openapi.lost112.go.kr/openapi/service/rest/
+http://openapi.lost112.go.kr/openapi/service/rest/SearchMoblphonInfoInqireService/
 핸드폰 찾기 정보 조회 서비스 : SearchMoblphonInfoInqireService
 
 <1> getMoblphonAcctoKindAreaPeriodInfo : 핸드폰 종류별, 습득 지역별, 기간별 정보 조회
@@ -192,12 +196,14 @@ http://openapi.lost112.go.kr/openapi/service/rest/
 
 
 
-http://openapi.lost112.go.kr/openapi/service/rest/
-공통 코드 조회 서비스 : SearchMoblphonInfoInqireService
+http://openapi.lost112.go.kr/openapi/service/rest/CmmnCdService/
+공통 코드 조회 서비스 : CmmnCdService
 
 <1> getCmmnCd : 공통 코드 조회
 요청 메시지 명세
 1. 그룹명				GRP_NM			지역구분/색상코드
+ref. 지역 구분 : %EC%A7%80%EC%97%AD%EA%B5%AC%EB%B6%84
+ref. 색상 코드 : %EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C
 2. 코드명				CD_NM			인천광역시
 응답 메시지 명세
 1. 공통코드				commCd				
