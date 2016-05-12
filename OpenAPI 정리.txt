@@ -1,0 +1,214 @@
+인증키 : jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D
+
+http://openapi.lost112.go.kr/openapi/service/rest/
+습득물 정보 조회 서비스 : LosfundInfoInqireService
+<1> getLosfundInfoAccToClAreaPd : 분류별, 지역별, 기간별 습득물 정보 조회
+요청 메시지 명세
+1. 상위 물품 분류 코드 : 대분류 	PRDT_CL_CD_01		PRL000
+2. 하위 물품 분류 코드 : 중분류 	PRDT_CL_CD_02		PRL100
+3. 색상 코드 : 습득물 색상		FD_COL_CD
+4. 습득일자(시작일) : 검색 시작일	START_YMD		20131201
+5. 습득일자(종료일) : 검색 종료일	END_YMD			20131220
+6. 습득 지역 : 습득 지역		N_FD_LCT_CD
+응답 메시지 명세
+1. 관리 ID				atcId
+2. 습득 순번				fdSn
+3. 물품 분류명				prdtClNm
+4. 색상명				clrNm
+5. 물품명				fdPrdtNm
+6. 게시 제목				fdSbjt	
+7. 습득물 사진 이미지명			fdFilePathImg
+8. 보관 장소				depPlace
+9. 습득 일자				fdYmd
+
+<2>getLosfundInfoAccTpNmCstdyPlace : 습득물 명칭, 보관 장소별 습득물 정보 조회
+요청 메시지 명세
+1. 물품명				PRDT_NM			45
+2. 보관 장소				DEP_PLACE		일산
+응답 메시지 명세
+1. 관리 ID				atcId
+2. 습득 순번				fdSn
+3. 물품 분류명				prdtClNm
+4. 색상명				clrNm
+5. 물품명				fdPrdtNm
+6. 게시 제목				fdSbjt	
+7. 습득물 사진 이미지명			fdFilePathImg
+8. 보관 장소				depPlace
+9. 습득 일자				fdYmd
+
+
+<3> getLosfundDetailInfo : 습득물 상세정보 조회
+요청 메시지 명세
+1. 관리 ID				ATC_ID			F2013121500000266
+2. 습득 순번				FD_SN			1
+응답 메시지 명세
+1. 물품명
+2. 관리 ID
+3. 습득 순번
+4. 습득물 사진 파일 경로
+5. 습득 일자
+6. 습득 시간
+7. 습득 장소
+8. 물품 분류명
+9. 보관장소
+10. 보관 상태명
+11. 습득물 보관 기관 구분명
+12. 기관 아이디
+13. 기관명
+14. 전화번호
+15. 특이사항
+
+<4> getLosfundInfoAccToLc : 습득물 위치기반 조회
+요청 메시지 명세
+1. 물품명				PRDT_NM			지갑
+2. 기관 도로명 주소			ADDR			서울
+응답 메시지 명세
+1. 관리 ID
+2. 습득 순번
+3. 물품 분류명
+4. 색상명
+5. 물품명
+6. 게시 제목
+7. 보관 장소
+8. 기관 도로명 주소
+9. 습득 일자 
+
+
+
+
+
+
+
+
+
+http://openapi.lost112.go.kr/openapi/service/rest/
+분실물 정보 조회 서비스 : LostGoodsInfoInqireService
+
+<1> getLostGoodsInfoAccToClAreaPd : 분류별, 지역별, 기간별 분실물 정보 조회
+요청 메시지 명세
+1. 분실물 등록날짜 : 검색 시작일 	START_YMD		20110801
+2. 분실물 등록날짜 : 검색 종료일 	END_YMD			20111130
+3. 상위 물품 코드			PRDT_CL_CD_01		PRA000
+4. 하위 물품 코드			PRDT_CL_CD_02		PRA300
+5. 분실 지역 코드			LST_LCT_CD		LCA000
+응답 메시지 명세
+1. 관리 ID				atcld		
+2. 물품 분류명				prdtClNm	
+3. 분실물명				lstPrdtNm
+4. 게시 제목				lstSbjt
+5. 분실 지역명				lstPlace
+6. 분실물 등록 날짜			lstYmd
+
+<2> getLostGoodsInfoAccTpNmCstdyPlace : 분실물 명칭, 보관 장소별 습득물 정보 조회
+요청 메시지 명세
+1. 분실 지역명				LST_PLACE		역
+2. 분실물명				LST_PRDT_NM		가방
+응답 메시지 명세
+1. 관리 ID				atcId
+2. 물품 분류명				prdtClNm
+3. 분실물명				lstPrdtNm
+4. 게시 제목				lstSbjt
+5. 분실 지역명				lstPlace
+6. 분실물 등록 날짜			lstYmd
+
+<3> getLostGoodsDetailInfo : 분실물 상세정보 조회
+요청 메시지 명세
+1. 관리 ID				ATC_ID			L2012061700000159
+응답 메시지 명세
+1. 물품명				lstPrdtNm
+2. 관리 ID				atcId
+3. 분실 일자				lstYmd
+4. 분실 시간				lstHor
+5. 분실 장소				lstPlace
+6. 물품 분류명				prdtClNm
+7. 분실물 상태명			lstSteNm
+8. 특이사항				uniq
+9. 색상 코드명				clrNm
+10. 분실 지역명				lstLctNm
+11. 게시 제목				lstSbjt
+12. 기관 아이디				orgId
+13. 기관명				orgNm
+14. 기관 전화번호			tel
+15. 분실 장소 구분명			lstPlaceSeNm
+16. 분실물 이미지명			lstFilePathImg
+
+
+
+
+
+
+
+
+
+
+
+http://openapi.lost112.go.kr/openapi/service/rest/
+핸드폰 찾기 정보 조회 서비스 : SearchMoblphonInfoInqireService
+
+<1> getMoblphonAcctoKindAreaPeriodInfo : 핸드폰 종류별, 습득 지역별, 기간별 정보 조회
+요청 메시지 명세
+1. 하위 물품 분류 코드 : 중분류		PRDT_CL_CD_02		PRJ500
+2. 색상 코드				COL_CD			CL100
+3. 습득 일자 : 검색시작일		START_YMD		20130101
+4. 습득 일자 : 검색종료일		END_YMD			20130901
+5. 지역 구분 코드			FD_LCT_CD
+응답 메시지 명세
+1. 관리 ID				atcId
+2. 습득 순번				fdSn
+3. 물품 분류명				prdtClNm
+4. 색상명				clrNm
+5. 물품명				fdPrdtNm
+6. 게시 제목				fdSbjt
+7. 핸드폰 모델 코드			mdcd
+8. 핸드폰 일련 번호			srno
+9. 습득물 사진 이미지명			fdFilePathImg
+10. 보관장소				depPlace
+11. 습득일자				fdYmd
+
+<2> getMoblphonDetailInfo : 핸드폰 상세 정보 조회
+요청 메시지 명세
+1. 관리 ID 				ATC_ID			F2013090400000919
+2. 습득 순번				FD_SN			1
+응답 메시지 명세
+1. 물품명				fdPrdtNm
+2. 관리 ID				atcId
+3. 습득 순번				fdSn
+4. 핸드폰 모델 코드			mdcd
+5. 핸드폰 일련 번호			srno
+6. 습득물 사진 이미지명			fdFilePathImg
+7. 습득 일자				fdYmd
+8. 습득 시간				fndHor
+9. 습득 장소				fdPlace
+10. 물품 분류명				prdtClNm
+11. 보관 장소				depPlace
+12. 보관 상태명				csteSteNm
+13. 습득물 보관 기관 구분명		fndKeepOrgnSeNm
+14. 기관 아이디				orgId
+15. 전화번호				tel
+16. 특이 사항				uniq
+
+
+
+
+
+
+http://openapi.lost112.go.kr/openapi/service/rest/
+공통 코드 조회 서비스 : SearchMoblphonInfoInqireService
+
+<1> getCmmnCd : 공통 코드 조회
+요청 메시지 명세
+1. 그룹명				GRP_NM			지역구분/색상코드
+2. 코드명				CD_NM			인천광역시
+응답 메시지 명세
+1. 공통코드				commCd				
+2. 공통코드명				cdNm
+3. 공통그룹코드				commGrpCd
+4. 그룹명				grpNm
+
+<2> getThngClCd : 물품 분류 코드 조회
+요청 메시지 명세
+1. 상위 물품 코드			PRDT_CL_CD_01		PRJ000
+응답 메시지 명세
+1. 물품 분류 코드			prdtCd
+2. 물품 분류명				prdtNm
+3. 상위 물품 코드			hiPrdtCd
