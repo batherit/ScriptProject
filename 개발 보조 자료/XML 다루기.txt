@@ -1,0 +1,32 @@
+<맛보기>
+from xml.dom.minidom import *
+xmlsrc = xml 형식 문자열
+#xmlFD = open(fileName)		#xml 문서 open
+doc = parseString(xmlsrc)	#xml 형식 문자열 -> dom
+#doc = parse(xmlFD)		#xml 파일 -> dom
+doc.toxml()			#dom -> xml 형식 문자열
+
+엘리먼트 이름은 다를 수 있다. -> 그에 해당하는 것으로 검색되게끔.
+꺾쇠 안 어트리뷰트
+꺾쇠 밖 노멀 텍스트
+ex. 
+1. <엘리먼트 어트리뷰트/> 
+2. <엘리먼트> 노멀 텍스트 </엘리먼트> 
+ref. 꺾쇠 밖에 노멀 텍스트나 자식 아이템이 있으면 그 이후 </엘리먼트>
+, 없다면 <엘리먼트 (어트리뷰트)/>
+dom 객체 기반 문서 모델
+
+<Document 객체의 주요 메서드>
+doc.createElement(tagName) : 새로운 엘리먼트 객체 생성
+doc.createTextNode(data) : 새로운 문자 노드 생성
+doc.createAttribute(name) : 속성 생성
+doc.getElementsByTagName(tagName) : tagName과 같은 모든 엘리먼트를 가져옴 -> 리스트 형식
+
+<xml 주 임포트 모듈>
+from xml.dom.minidom import parse, parseString #minidom 파싱함수 임포트
+from xml.etree import ElementTree
+
+###global
+loopFlag = 1	#무한 루프 제어변수
+xmlFD = -1	#XML 문서 파일 디스크립터
+BooksDoc = None	#XML 문서 파싱한 후 반환된 DOC 객체 변수
