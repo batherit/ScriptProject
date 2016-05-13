@@ -1,15 +1,16 @@
 인증키 : jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D
 
-http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/
-※ 
-http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/LosfundInfoInqireService?
+ex.
+http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?
 ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D
 
 
 
 
 
+http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/
 습득물 정보 조회 서비스 : LosfundInfoInqireService
+
 <1> getLosfundInfoAccToClAreaPd : 분류별, 지역별, 기간별 습득물 정보 조회
 요청 메시지 명세
 1. 상위 물품 분류 코드 : 대분류 	PRDT_CL_CD_01		PRL000
@@ -43,7 +44,6 @@ ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHG
 7. 습득물 사진 이미지명			fdFilePathImg		https://www.lost112.go.kr/lostnfs/images/sub/img02_no_img.gif
 8. 보관 장소				depPlace		일산경찰서
 9. 습득 일자				fdYmd			2013-12-13
-
 
 <3> getLosfundDetailInfo : 습득물 상세정보 조회
 요청 메시지 명세
