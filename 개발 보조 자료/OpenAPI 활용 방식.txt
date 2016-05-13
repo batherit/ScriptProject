@@ -1,0 +1,36 @@
+1.습득물 버튼 클릭
+
+2.
+종류별 검색 습득물 OpenAPI 1 사용
+-> 상위 물품 분류 코드(kind.xml)를 제시한다.
+-> 그 중 하나를 선택하도록 한다. (지갑, 핸드폰 등)
+-> 선택한 물품 종류에 대한 정보 출력
+기간별 검색 습득물 OpenAPI 1 사용
+-> 종류별 검색 시 입력 가능하도록 한다.
+
+
+장소별 검색 습득물 OpenAPI 4 사용
+-> 상위 장소(location.xml ex. LCI000)를 제시한다.
+-> 하위 장소(location.xml ex. LCI003)를 제시한다. (단, 띄어쓰기는 '_'로 대체 해야 한다.)
+
+
+3.
+상세 정보 습득물 OpenAPI 3 사용
+-> 관리 ID(atcId)와 습득 순번(fdSn)을 2.에서 입력받아 사용
+->
+1. 물품명				fdPrdtNm		압력밥솥 패킹, 수저, 밥주걱 등 신라면세점에서 구입한 물건	
+2. 관리 ID				atcId			F2013121500000266
+3. 습득 순번				fdSn			1
+4. 습득물 사진 파일 경로		fdFilePathImg		https://www.lost112.go.kr/lostnfs/images/uploadImg/20131215/20131215123102621.JPG
+5. 습득 일자				fdYmd			2013-12-15
+6. 습득 시간				fdHor			12
+7. 습득 장소				fdPlace			택시
+8. 물품 분류명				prdtClNm		기타물품 > 기타
+9. 보관장소				depPlace		제주서부경찰서
+10. 보관 상태명				csteSteNm		보관중
+11. 습득물 보관 기관 구분명		fndKeepOrgnSeNm		관서보관
+12. 기관 아이디				orgId			O0002388
+13. 기관명				orgNm			제주서부경찰서
+14. 전화번호				tel			064-760-1303
+15. 특이사항				uniq			특이사항 내용
+을 제시한다.

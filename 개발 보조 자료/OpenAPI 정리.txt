@@ -31,7 +31,7 @@ ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHG
 
 <2>getLosfundInfoAccTpNmCstdyPlace : 습득물 명칭, 보관 장소별 습득물 정보 조회
 요청 메시지 명세
-1. 물품명				PRDT_NM			45
+1. 물품명				PRDT_NM			45 ; 지갑
 2. 보관 장소				DEP_PLACE		일산
 응답 메시지 명세
 1. 관리 ID				atcId			F2013121600002028
