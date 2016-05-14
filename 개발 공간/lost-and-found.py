@@ -33,7 +33,7 @@ def launcherFunction(menu):
         
 #### xml function implementation
 def LoadXMLFromFile():
-   # fileName = str(input ("읽어올 xml 파일명을 입력하세요. :"))  # 읽어올 파일경로를 입력 받습니다.
+   # fileName = str(input ("읽어올 xml 파일명을 입력하세요. :"))  # open 메소드 사용 시 에러!
     global xmlFD
  
     try:
@@ -78,10 +78,10 @@ def PrintDetailOfLosts():
     response = LostsDoc.childNodes
     rsp_child = response[0].childNodes
     for item in rsp_child:
-        if item.nodeName == "body":  # 엘리먼트를 중 book인 것을 골라 냅니다.
-            body_list = item.childNodes  # book에 들어 있는 노드들을 가져옵니다.
-            for item in body_list:
-                item_list = item.childNodes
+        if item.nodeName == "body":                 # response 자식 중 body를 골라낸다.
+            body_list = item.childNodes             # body의 자식 리스트를 추출한다.
+            for item in body_list:                  # item을 찾는다.
+                item_list = item.childNodes         # item의 자식 리스트를 추출한다.
                 for detail_inform in item_list:
                     print(detail_inform_dic[detail_inform.nodeName], detail_inform.firstChild.nodeValue)
 def checkDocument():
