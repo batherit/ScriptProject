@@ -4,15 +4,28 @@
 종류별 검색 습득물 OpenAPI 1 사용
 -> 상위 물품 분류 코드(kind.xml)를 제시한다.
 -> 그 중 하나를 선택하도록 한다. (지갑, 핸드폰 등)
+-> numOfRows 및 pageNo를 설정한다.
 -> 선택한 물품 종류에 대한 정보 출력
 기간별 검색 습득물 OpenAPI 1 사용
 -> 종류별 검색 시 입력 가능하도록 한다.
+-> numOfRows 및 pageNo를 설정한다.
 
+형태 예시)
+http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/
+getLosfundInfoAccToClAreaPd?
+PRDT_CL_CD_01=big_class&START_YMD=minY&END_YMD=maxY&numOfRows=15&pageNo=pageNum
+&ServiceKey=인증키
 
 장소별 검색 습득물 OpenAPI 4 사용
 -> 상위 장소(location.xml ex. LCI000)를 제시한다.
 -> 하위 장소(location.xml ex. LCI003)를 제시한다. (단, 띄어쓰기는 '_'로 대체 해야 한다.)
+-> numOfRows 및 pageNo를 설정한다.
 
+형태 예시)
+http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/
+getLosfundInfoAccToClAreaPd?
+PRDT_NM=LostsName&DEP_PLACE=LostsPlace&numOfRows=15&pageNo=pageNum
+&ServiceKey=인증키
 
 3.
 상세 정보 습득물 OpenAPI 3 사용
