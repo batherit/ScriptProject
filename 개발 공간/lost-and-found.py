@@ -33,11 +33,11 @@ def launcherFunction(menu):
         
 #### xml function implementation
 def LoadXMLFromFile():
-   # fileName = str(input ("읽어올 xml 파일명을 입력하세요. :"))  # open 메소드 사용 시 에러!
+    fileName = str(input ("읽어올 xml 파일명을 입력하세요. :"))  # open 메소드 사용 시 에러!
     global xmlFD
  
     try:
-        xmlFD = "te.xml"#open(fileName)   # xml 문서를 open합니다.
+        xmlFD = open(fileName, 'rb')   # xml 문서를 open합니다.
     except IOError:
         print ("※유효하지 않은 파일명 또는 경로입니다.※")
         return None
