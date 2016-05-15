@@ -1,0 +1,43 @@
+#### xml function implementation
+def LoadXMLFromFile():
+    fileName = str(input ("읽어올 xml 파일명을 입력하세요. :"))  # open 메소드 사용 시 에러!
+    global xmlFD
+ 
+    try:
+        xmlFD = open(fileName, 'rb')   # xml 문서를 open합니다.
+    except IOError:
+        print ("※유효하지 않은 파일명 또는 경로입니다.※")
+        return None
+    else:
+        try:
+            dom = parse(xmlFD)   # XML 문서를 파싱합니다.
+        except Exception:
+            print ("※읽어오기가 실패하였습니다.※")
+        else:
+            print ("성공적으로 xml 파일을 읽어왔습니다.")
+            return dom
+    return None
+
+def PrintDetailOfLosts():
+    global LostsDoc
+    detail_inform_dic = \
+    { 
+        "atcId" : "관리 ID :", "csteSteNm" : "보관 상태 :", "depPlace" : "관리 장소 :",
+        "fdFilePathImg" : "이미지 경로 :", "fdHor" : "습득 시간 :", "fdPlace" : "습득 장소 :",
+        "fdPrdtNm" : "물품명 :", "fdSn" : "습득 순번 :", "fdYmd" : "습득 날짜 :", 
+        "fndKeepOrgnSeNm" : "습득물 보관 기관 구분명 :", "orgId" : "기관 ID :",
+        "orgNm" : "기관명 :", "prdtClNm" : "물품 분류명 :", "tel" : "전화 번호 :",
+        "uniq" : "특이 사항 :"
+    }
+    if not checkDocument():  # DOM이 None인지 검사합니다.
+        return None
+    
+    response = LostsDoc.childNodes
+    rsp_child = response[0].childNodes
+    for item in rsp_child:
+        if item.nodeName == "body":                 # response 자식 중 body를 골라낸다.
+            body_list = item.childNodes             # body의 자식 리스트를 추출한다.
+            for item in body_list:                  # item을 찾는다.
+                item_list = item.childNodes         # item의 자식 리스트를 추출한다.
+                for detail_inform in item_list:
+                    print(detail_inform_dic[detail_inform.nodeName], detail_inform.firstChild.nodeValue)

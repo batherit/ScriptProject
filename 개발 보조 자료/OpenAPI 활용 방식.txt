@@ -10,6 +10,15 @@
 -> 종류별 검색 시 입력 가능하도록 한다.
 -> numOfRows 및 pageNo를 설정한다.
 
+<1> getLosfundInfoAccToClAreaPd : 분류별, 지역별, 기간별 습득물 정보 조회
+요청 메시지 명세
+1. 상위 물품 분류 코드 : 대분류 	PRDT_CL_CD_01		PRL000
+2. 하위 물품 분류 코드 : 중분류 	PRDT_CL_CD_02		PRL100
+3. 색상 코드 : 습득물 색상		FD_COL_CD
+4. 습득일자(시작일) : 검색 시작일	START_YMD		20131201
+5. 습득일자(종료일) : 검색 종료일	END_YMD			20131220
+6. 습득 지역 : 습득 지역		N_FD_LCT_CD
+
 형태 예시)
 http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/
 getLosfundInfoAccToClAreaPd?
@@ -20,6 +29,21 @@ PRDT_CL_CD_01=big_class&START_YMD=minY&END_YMD=maxY&numOfRows=15&pageNo=pageNum
 -> 상위 장소(location.xml ex. LCI000)를 제시한다.
 -> 하위 장소(location.xml ex. LCI003)를 제시한다. (단, 띄어쓰기는 '_'로 대체 해야 한다.)
 -> numOfRows 및 pageNo를 설정한다.
+
+<4> getLosfundInfoAccToLc : 습득물 위치기반 조회
+요청 메시지 명세
+1. 물품명				PRDT_NM			지갑
+2. 기관 도로명 주소			ADDR			서울
+응답 메시지 명세
+1. 관리 ID				atcId			F2013112800000141
+2. 습득 순번				fdSn			1
+3. 물품 분류명				prdtClNm		지갑>여성지갑
+4. 색상명				clrNm			화이트(흰)
+5. 물품명				fdPrdtNm		지갑
+6. 게시 제목				fdSbjt			지갑(화이트(흰)색)을 습득하여 보관하고 있습니다.
+7. 보관 장소				depPlace		경찰청(본청)
+8. 기관 도로명 주소			addr			서울특별시 서대문구 통일로 97
+9. 습득 일자 				fdYmd			2013-11-28
 
 형태 예시)
 http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/
