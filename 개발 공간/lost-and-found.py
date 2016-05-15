@@ -113,15 +113,17 @@ def SelectKindOfLosts():
 def InsertSearchPeriod():
     while 1:
         startDay = input("2014년 1월 이후, 검색 시작일을 입력해주세요.:")
-        if 8 != len(startDay) or (int(startDay[2]) <= 1 and int(startDay[3]) <= 3):
-            print("※잘못된 입력입니다.※")
-        else : break
+        if 8 == len(startDay) and int(startDay[2]+startDay[3]) >=14 \
+           and 1<=int(startDay[4]+startDay[5]) <= 12 and 1<=int(startDay[6]+startDay[7]) <= 31 :
+            break
+        else : print("※잘못된 입력입니다.※")
     
     while 1:
         endDay = input("검색 시작일 이후, 검색 종료일을 입력해주세요.:")
-        if 8 != len(endDay) or (int(startDay) > int(endDay)):
-            print("※잘못된 입력입니다.※")
-        else : break       
+        if 8 == len(endDay) and (int(startDay) <= int(endDay)) \
+           and 1<=int(endDay[4]+endDay[5]) <= 12 and 1<=int(endDay[6]+endDay[7]) <= 31:
+            break 
+        else : print("※잘못된 입력입니다.※")      
     
     return startDay, endDay
     
