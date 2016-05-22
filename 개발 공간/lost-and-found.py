@@ -11,10 +11,14 @@ from urllib.request import urlopen
 
 ##### global
 loopFlag = 1
-xmlFD = -1
-LostsDoc = None
 
-kindOfLostsXMLDoc = None
+#xmlFD = -1
+kindOfGoodsXMLDoc = None
+
+lostsDoc = None
+foundsDoc = None
+
+informOfFoundsXMLDoc = None
 informOfLostsXMLDoc = None
 
 serviceKey = "&ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D"
@@ -23,20 +27,28 @@ serviceKey = "&ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxe
 #### Menu  implementation
 def printMenu():
     print("========<<메뉴>>==========")
-    print("xml 파일을 읽어옵니다.: l")
-    print("상세정보를 출력합니다.: b")
+    print("xml 파일을 읽어옵니다.: r")
+    print("습득물 검색 : f")
+    print("분실물 검색 : l")
     print("프로그램을 종료합니다.: q")
     print("==================")
     
     
 def launcherFunction(menu):
     global LostsDoc
-    if menu ==  'l':
+    if menu ==  'r':
         LoadXMLFromWeb()
-    elif menu == 'b':
+    elif menu == 'f':
         #PrintDetailOfLosts()
-        if kindOfLostsXMLDoc  != None:
-            kindOfLosts = SelectKindOfLosts()
+        if kindOfGoodsXMLDoc != None:
+            kindOfFounds = SelectKindOfGoods()
+            startDay, endDay = InsertSearchPeriod()
+            PrintInformOfFounds(kindOfFounds, startDay, endDay)
+        else : print("※해당 데이터가 존재하지 않습니다.※")
+    elif menu == 'l':
+        #PrintDetailOfLosts()
+        if kindOfGoodsXMLDoc  != None:
+            kindOfLosts = SelectKindOfGoods()
             startDay, endDay = InsertSearchPeriod()
             PrintInformOfLosts(kindOfLosts, startDay, endDay)
         else : print("※해당 데이터가 존재하지 않습니다.※")
@@ -48,7 +60,7 @@ def launcherFunction(menu):
         
 #### xml function implementation
 def LoadXMLFromWeb():
-    global kindOfLostsXMLDoc
+    global kindOfGoodsXMLDoc 
 
     try:
         xmlFD = urlopen("http://openapi.lost112.go.kr/openapi/service/rest/CmmnCdService/getThngClCd?ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D")
@@ -58,7 +70,7 @@ def LoadXMLFromWeb():
         return False
     else:
         try:
-            kindOfLostsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            kindOfGoodsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
         except Exception:
             print ("※읽어오기가 실패하였습니다.※")
         else:
@@ -68,13 +80,13 @@ def LoadXMLFromWeb():
     
     
 def LAFFree():
-    global kindOfLostsXMLDoc 
+    global kindOfGoodsXMLDoc 
+    global informOfFoundsXMLDoc
     global informOfLostsXMLDoc
     
-    if checkDocument():
-        kindOfLostsXMLDoc.unlink()   # minidom 객체 해제합니다.
-        informOfLostsXMLDoc.unlink()
-     
+    if checkKOGDoc(): kindOfGoodsXMLDoc .unlink()   # minidom 객체 해제합니다.
+    if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
+    if checkIOLDoc(): informOfLostsXMLDoc.unlink()
      
 def QuitLAF():
     global loopFlag
@@ -82,13 +94,13 @@ def QuitLAF():
     LAFFree()
          
            
-def SelectKindOfLosts():
-    global kindOfLostsXMLDoc
+def SelectKindOfGoods():
+    global kindOfGoodsXMLDoc
     #kind_losts_dic = {  "prdtCd" : "물품 분류 코드 :", "prdtNm" : "물품 분류명 :" }
-    if not checkDocument():  # DOM이 None인지 검사합니다.
+    if not checkKOGDoc():  # DOM이 None인지 검사합니다.
         return None
         
-    response = kindOfLostsXMLDoc.childNodes
+    response = kindOfGoodsXMLDoc.childNodes
     rsp_child = response[0].childNodes
     
     for item in rsp_child:
@@ -98,7 +110,9 @@ def SelectKindOfLosts():
             items_list = items.childNodes
             for i, item in enumerate(items_list):
                 item_list = item.childNodes
-                print("{0}. {1}".format(i, item_list[1].firstChild.nodeValue))
+                if 0 == i % 3 :
+                    print('')
+                print("{0:<2}. {1:<10}".format(i, item_list[1].firstChild.nodeValue), end = ' ')
                 
     while 1:        
         kindIdx=int(input("위 목록 중 찾을 물품 종류를 골라주세요.^^:"))
@@ -128,48 +142,144 @@ def InsertSearchPeriod():
     return startDay, endDay
     
 
-def PrintInformOfLosts(kindOfLosts, startDay, endDay):
+def PrintInformOfFounds(kindOfFounds, startDay, endDay):
     global serviceKey
-    global informOfLostsXMLDoc
-    losts_inform_dic = \
+    global informOfFoundsXMLDoc
+    pageNum = 1
+    
+    founds_inform_dic = \
     { 
         "atcId" : "관리 ID :", "fdSn" : "습득 순번 :","prdtClNm" : "물품 분류명 :",
          "clrNm" : "색상명 :","fdPrdtNm" : "물품명 :", "fdSbjt" : "게시 제목 :",
         "fdFilePathImg" : "이미지 경로 :", "depPlace" : "관리 장소 :", "fdYmd" : "습득 날짜 :"
     }
-    basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
-    optionURL = "PRDT_CL_CD_01="+kindOfLosts+"&START_YMD="+startDay+"&END_YMD="+endDay
-    totalURL = basedURL+optionURL+serviceKey
-    #print(totalURL)
-    try:
-        xmlFD = urlopen(totalURL)
-    except IOError:
-        print ("※URL 접근에 실패하였습니다.※")
-    else:
+    
+    while 1:
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
+        optionURL = "PRDT_CL_CD_01="+kindOfFounds+"&START_YMD="+startDay+"&END_YMD="+endDay+"&pageNo="+str(pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        #print(totalURL)
         try:
-            informOfLostsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
-        except Exception:
-            print ("※읽어오기가 실패하였습니다.※")
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
         else:
-            print ("검색 조건에 해당하는 정보들을 출력합니다.")
-            response = informOfLostsXMLDoc.childNodes
-            rsp_child = response[0].childNodes
-            for item in rsp_child:
-                if item.nodeName == "body":                 
-                    body_list = item.childNodes             
-                    items = body_list[0]                    
-                    items_list = items.childNodes
-                    for i, item in enumerate(items_list):
-                        print("---------<<{0}>>---------".format(i))
-                        item_list = item.childNodes
-                        for losts_inform in item_list:
-                            if losts_inform.nodeName != "rnum":
-                                print(losts_inform_dic[losts_inform.nodeName], losts_inform.firstChild.nodeValue)
+            try:
+                informOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                print ("검색 조건에 해당하는 정보들을 출력합니다.")
+                response = informOfFoundsXMLDoc.childNodes
+                rsp_child = response[0].childNodes
+                for item in rsp_child:
+                    if item.nodeName == "body":                 
+                        body_list = item.childNodes             
+                        items = body_list[0]                    
+                        items_list = items.childNodes
+                        if 0 != len(items_list):
+                            for i, item in enumerate(items_list):
+                                print("---------<<{0}>>---------".format(i))
+                                item_list = item.childNodes
+                                for founds_inform in item_list:
+                                    if founds_inform.nodeName != "rnum":
+                                        print(founds_inform_dic[founds_inform.nodeName], founds_inform.firstChild.nodeValue)
+                        else : 
+                            print("※나타낼 데이터가 없습니다.※")
+                print("                              -{0}-".format(pageNum))
+        while 1:
+            key = input("이전 장 : [, 이후 장 : ], 종료 : q를 입력하세요. :")
+            if key != '[' and key != ']' and key != 'q': 
+                print("※잘못된 입력입니다.※")
+            elif key == '[':
+                if pageNum > 1 :
+                    pageNum = pageNum-1
+                    break
+                else :
+                    print("※더 이상 표시할 수 없는 페이지입니다.※")
+                    break
+            elif key == ']':
+                pageNum = pageNum + 1
+                break
+            else : return None
+            
+def PrintInformOfLosts(kindOfLosts, startDay, endDay):
+    global serviceKey
+    global informOfLostsXMLDoc
+    pageNum = 1
+    
+    losts_inform_dic = \
+    { 
+        "atcId" : "관리 ID :","lstPlace" : "분실 지역명 :", "prdtClNm" : "물품 분류명 :",
+        "lstPrdtNm" : "분실물명 :", "lstSbjt" : "게시 제목 :", "lstYmd": "분실물 등록 날짜 :"
+    }
+    
+    while 1:
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?"
+        optionURL = "PRDT_CL_CD_01="+kindOfLosts+"&START_YMD="+startDay+"&END_YMD="+endDay+"&pageNo="+str(pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        #print(totalURL)
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfLostsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                print ("검색 조건에 해당하는 정보들을 출력합니다.")
+                response = informOfLostsXMLDoc.childNodes
+                rsp_child = response[0].childNodes
+                for item in rsp_child:
+                    if item.nodeName == "body":                 
+                        body_list = item.childNodes             
+                        items = body_list[0]                    
+                        items_list = items.childNodes
+                        if 0 != len(items_list):
+                            for i, item in enumerate(items_list):
+                                print("---------<<{0}>>---------".format(i))
+                                item_list = item.childNodes
+                                for losts_inform in item_list:
+                                    if losts_inform.nodeName != "rnum":
+                                        print(losts_inform_dic[losts_inform.nodeName], losts_inform.firstChild.nodeValue)
+                        else : 
+                            print("※나타낼 데이터가 없습니다.※")
+                print("                              -{0}-".format(pageNum))
+        while 1:
+            key = input("이전 장 : [, 이후 장 : ], 종료 : q를 입력하세요. :")
+            if key != '[' and key != ']' and key != 'q': 
+                print("※잘못된 입력입니다.※")
+            elif key == '[':
+                if pageNum > 1 :
+                    pageNum = pageNum-1
+                    break
+                else :
+                    print("※더 이상 표시할 수 없는 페이지입니다.※")
+                    break
+            elif key == ']':
+                pageNum = pageNum + 1
+                break
+            else : return None
 
+def checkKOGDoc():
+    global kindOfGoodsXMLDoc 
+    if kindOfGoodsXMLDoc  == None:
+        print("※읽어올 xml 파일이 존재하지 않습니다.※")
+        return False
+    return True
 
-def checkDocument():
-    global kindOfLostsXMLDoc 
-    if kindOfLostsXMLDoc  == None:
+def checkIOFDoc():
+    global informOfFoundsXMLDoc 
+    if informOfFoundsXMLDoc  == None:
+        print("※읽어올 xml 파일이 존재하지 않습니다.※")
+        return False
+    return True
+
+def checkIOLDoc():
+    global informOfLostsXMLDoc 
+    if informOfLostsXMLDoc  == None:
         print("※읽어올 xml 파일이 존재하지 않습니다.※")
         return False
     return True
