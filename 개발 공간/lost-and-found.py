@@ -112,8 +112,8 @@ def SelectKindOfGoods():
                 item_list = item.childNodes
                 if 0 == i % 3 :
                     print('')
-                print("{0:<2}. {1:<10}".format(i, item_list[1].firstChild.nodeValue), end = ' ')
-                
+                print("{0:<2}. {1:<10}".format(i, item_list[1].firstChild.nodeValue), end = '')
+    print("")
     while 1:        
         kindIdx=int(input("위 목록 중 찾을 물품 종류를 골라주세요.^^:"))
         if 0 <= kindIdx <= 18:
@@ -146,12 +146,23 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
     global serviceKey
     global informOfFoundsXMLDoc
     pageNum = 1
+    itemNum = 0
+    items_list = None
     
     founds_inform_dic = \
     { 
         "atcId" : "관리 ID :", "fdSn" : "습득 순번 :","prdtClNm" : "물품 분류명 :",
          "clrNm" : "색상명 :","fdPrdtNm" : "물품명 :", "fdSbjt" : "게시 제목 :",
         "fdFilePathImg" : "이미지 경로 :", "depPlace" : "관리 장소 :", "fdYmd" : "습득 날짜 :"
+    }
+    
+    founds_detail_dic = \
+    { 
+        "fdPrdtNm" : "물품명 :", "atcId" : "관리 ID :", "fdSn" : "습득 순번 :",
+        "fdFilePathImg" : "습득물 사진 경로 :", "fdYmd" : "습득 일자 :", "fdHor" : "습득 시간 :",
+        "fdPlace" : "습득 장소 :", "prdtClNm" : "물품 분류명 :", "depPlace" : "보관 장소 :",
+        "csteSteNm" : "보관 상태 :", "fndKeepOrgnSeNm" : "습득물 보관 기관 구분명 :", 
+        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "tel" : "전화번호 :", "uniq" : "특이사항 :"
     }
     
     while 1:
@@ -172,24 +183,27 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
                 print ("검색 조건에 해당하는 정보들을 출력합니다.")
                 response = informOfFoundsXMLDoc.childNodes
                 rsp_child = response[0].childNodes
-                for item in rsp_child:
-                    if item.nodeName == "body":                 
-                        body_list = item.childNodes             
-                        items = body_list[0]                    
-                        items_list = items.childNodes
-                        if 0 != len(items_list):
-                            for i, item in enumerate(items_list):
-                                print("---------<<{0}>>---------".format(i))
-                                item_list = item.childNodes
-                                for founds_inform in item_list:
-                                    if founds_inform.nodeName != "rnum":
-                                        print(founds_inform_dic[founds_inform.nodeName], founds_inform.firstChild.nodeValue)
-                        else : 
-                            print("※나타낼 데이터가 없습니다.※")
+                #for item in rsp_child:
+                #    if item.nodeName == "body":                 
+                #        body_list = item.childNodes   
+                body_list = rsp_child[1].childNodes
+                items = body_list[0]                    
+                items_list = items.childNodes
+                itemNum = len(items_list)
+                if 0 != itemNum:
+                    for i, item in enumerate(items_list):
+                        print("---------<<{0}>>---------".format(i))
+                        item_list = item.childNodes
+                        for founds_inform in item_list:
+                            if founds_inform.nodeName != "rnum":
+                                print(founds_inform_dic[founds_inform.nodeName], founds_inform.firstChild.nodeValue)
+                else : 
+                    print("※나타낼 데이터가 없습니다.※")
                 print("                              -{0}-".format(pageNum))
         while 1:
-            key = input("이전 장 : [, 이후 장 : ], 종료 : q를 입력하세요. :")
-            if key != '[' and key != ']' and key != 'q': 
+            print("이전 장 : [, 이후 장 : ], 상세정보 : 해당Idx, 종료 : q")
+            key = input("원하는 메뉴를 입력하세요. :")
+            if key != '[' and key != ']' and key != 'q' and (0 > int(key) or int(key) >= itemNum): 
                 print("※잘못된 입력입니다.※")
             elif key == '[':
                 if pageNum > 1 :
@@ -201,7 +215,49 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
             elif key == ']':
                 pageNum = pageNum + 1
                 break
-            else : return None
+            elif key == 'q' : 
+                return None
+            else:
+                if itemNum == 0 :
+                    print("표시할 수 없는 정보입니다.")
+                else:
+                    item_list = items_list[int(key)].childNodes
+                    detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item_list[0].firstChild.nodeValue+"&FD_SN="+item_list[6].firstChild.nodeValue+serviceKey
+                    try:
+                        xmlFD = urlopen(detailURL)
+                    except IOError:
+                        print ("※URL 접근에 실패하였습니다.※")
+                    else:
+                        try:
+                            detailOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+                        except Exception:
+                            print ("※읽어오기가 실패하였습니다.※")
+                        else:
+                            print ("세부 정보를 출력합니다.")
+                            response = detailOfFoundsXMLDoc.childNodes
+                            rsp_child = response[0].childNodes
+                            #for item in rsp_child:
+                            #    if item.nodeName == "body":                 
+                            #        body_list = item.childNodes   
+                            print(rsp_child[1])
+                            body_list = rsp_child[1].childNodes
+                            print(len(body_list))
+                            item = body_list[0]           
+                            print(item)
+                            item_list = item.childNodes
+                            for founds_detail in item_list:
+                                print(founds_detail_dic[founds_detail.nodeName], founds_detail.firstChild.nodeValue)
+                            while 1:
+                                print("뒤로 가기 : [, 종료 : q")
+                                key = input("원하는 메뉴를 입력하세요. :")
+                                if key != '[' and key != 'q': 
+                                    print("※잘못된 입력입니다.※")
+                                elif key == '[':
+                                    break
+                                else :
+                                    return None
+                            break
+                
             
 def PrintInformOfLosts(kindOfLosts, startDay, endDay):
     global serviceKey
