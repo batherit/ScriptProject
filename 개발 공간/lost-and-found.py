@@ -182,10 +182,7 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
             else:
                 print ("검색 조건에 해당하는 정보들을 출력합니다.")
                 response = informOfFoundsXMLDoc.childNodes
-                rsp_child = response[0].childNodes
-                #for item in rsp_child:
-                #    if item.nodeName == "body":                 
-                #        body_list = item.childNodes   
+                rsp_child = response[0].childNodes 
                 body_list = rsp_child[1].childNodes
                 items = body_list[0]                    
                 items_list = items.childNodes
@@ -217,18 +214,16 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
                 break
             elif key == 'q' : 
                 return None
-            else:
+            elif 0 <= int(key) < itemNum:
                 if itemNum == 0 :
                     print("표시할 수 없는 정보입니다.")
                 else:
                     try:
-                        tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml())) #ElementTree 
-                        print("1..........................")                        
+                        tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml())) #ElementTree                       
                         items = tree.getiterator("item")  
                         for i, item in enumerate(items):
                             if i == int(key):
-                                detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item.find("atcId").text +"&FD_SN="+item.find("fdSn").text+serviceKey
-                        print("3..........................")                        
+                                detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item.find("atcId").text +"&FD_SN="+item.find("fdSn").text+serviceKey                       
                         try:
                             xmlFD = urlopen(detailURL)
                         except IOError:
@@ -241,15 +236,12 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
                             else:
                                 print ("세부 정보를 출력합니다.")
                                 response = detailOfFoundsXMLDoc.childNodes
-                                rsp_child = response[0].childNodes
-                                #for item in rsp_child:
-                                #    if item.nodeName == "body":                 
-                                #        body_list = item.childNodes   
-                                print(rsp_child[1])
+                                rsp_child = response[0].childNodes  
+                                #print(rsp_child[1])
                                 body_list = rsp_child[1].childNodes
-                                print(len(body_list))
+                                #print(len(body_list))
                                 item = body_list[0]           
-                                print(item)
+                                #print(item)
                                 item_list = item.childNodes
                                 for founds_detail in item_list:
                                     print(founds_detail_dic[founds_detail.nodeName], founds_detail.firstChild.nodeValue)
@@ -266,6 +258,7 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
                     except Exception:
                         print ("※트리 파싱에 에러가 발생하였습니다.※")
                         break
+            else : print("※잘못된 입력입니다.※")
 
                 
             
@@ -273,11 +266,21 @@ def PrintInformOfLosts(kindOfLosts, startDay, endDay):
     global serviceKey
     global informOfLostsXMLDoc
     pageNum = 1
+    itemNum = 0
+    items_list = None
     
     losts_inform_dic = \
     { 
         "atcId" : "관리 ID :","lstPlace" : "분실 지역명 :", "prdtClNm" : "물품 분류명 :",
         "lstPrdtNm" : "분실물명 :", "lstSbjt" : "게시 제목 :", "lstYmd": "분실물 등록 날짜 :"
+    }
+    
+    losts_detail_dic = \
+    {
+        "atcId" : "관리 ID :", "clrNm" : "색상 코드 명 :", "lstFilePathImg" : "분실물 이미지 경로 :",
+        "lstHor" : "분실 시간 :", "lstLctNm" : "분실 지역명 :", "lstPlace" : "분실 장소명 :", "lstPlaceSeNm" : "분실 장소 구분명 :",
+        "lstPrdtNm" : "물품명 :", "lstSbjt" : "게시 제목 :", "lstSteNm" : "분실물 상태명 :", "lstYmd" : "분실 일자 :",
+        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "prdtClNm" : "물품 분류명 :", "tel" : "기관 전화 번호 :", "uniq" : "특이사항 :"
     }
     
     while 1:
@@ -303,7 +306,8 @@ def PrintInformOfLosts(kindOfLosts, startDay, endDay):
                         body_list = item.childNodes             
                         items = body_list[0]                    
                         items_list = items.childNodes
-                        if 0 != len(items_list):
+                        itemNum = len(items_list)
+                        if 0 != itemNum:
                             for i, item in enumerate(items_list):
                                 print("---------<<{0}>>---------".format(i))
                                 item_list = item.childNodes
@@ -314,8 +318,9 @@ def PrintInformOfLosts(kindOfLosts, startDay, endDay):
                             print("※나타낼 데이터가 없습니다.※")
                 print("                              -{0}-".format(pageNum))
         while 1:
-            key = input("이전 장 : [, 이후 장 : ], 종료 : q를 입력하세요. :")
-            if key != '[' and key != ']' and key != 'q': 
+            print("이전 장 : [, 이후 장 : ], 상세정보 : 해당Idx, 종료 : q")
+            key = input("원하는 메뉴를 입력하세요. :")
+            if key != '[' and key != ']' and key != 'q' and (0 > int(key) or int(key) >= itemNum): 
                 print("※잘못된 입력입니다.※")
             elif key == '[':
                 if pageNum > 1 :
@@ -327,8 +332,54 @@ def PrintInformOfLosts(kindOfLosts, startDay, endDay):
             elif key == ']':
                 pageNum = pageNum + 1
                 break
-            else : return None
-
+            elif key == 'q' : 
+                return None
+            elif 0 <= int(key) < itemNum:
+                if itemNum == 0 :
+                    print("표시할 수 없는 정보입니다.")
+                else:
+                    try:
+                        tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml())) #ElementTree                       
+                        items = tree.getiterator("item")  
+                        for i, item in enumerate(items):
+                            if i == int(key):
+                                detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsDetailInfo?"+"ATC_ID="+item.find("atcId").text + serviceKey                       
+                        try:
+                            xmlFD = urlopen(detailURL)
+                        except IOError:
+                            print ("※URL 접근에 실패하였습니다.※")
+                        else:
+                            try:
+                                detailOfLostsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+                            except Exception:
+                                print ("※읽어오기가 실패하였습니다.※")
+                            else:
+                                print ("세부 정보를 출력합니다.")
+                                response = detailOfLostsXMLDoc.childNodes
+                                rsp_child = response[0].childNodes  
+                                #print(rsp_child[1])
+                                body_list = rsp_child[1].childNodes
+                                #print(len(body_list))
+                                item = body_list[0]           
+                                #print(item)
+                                item_list = item.childNodes
+                                for losts_detail in item_list:
+                                    print(losts_detail_dic[losts_detail.nodeName], losts_detail.firstChild.nodeValue)
+                                while 1:
+                                    print("뒤로 가기 : [, 종료 : q")
+                                    key = input("원하는 메뉴를 입력하세요. :")
+                                    if key != '[' and key != 'q': 
+                                        print("※잘못된 입력입니다.※")
+                                    elif key == '[':
+                                        break
+                                    else :
+                                        return None
+                                break
+                    except Exception:
+                        print ("※트리 파싱에 에러가 발생하였습니다.※")
+                        break
+            else : print("※잘못된 입력입니다.※")
+            
 def checkKOGDoc():
     global kindOfGoodsXMLDoc 
     if kindOfGoodsXMLDoc  == None:
