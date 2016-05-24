@@ -221,42 +221,52 @@ def PrintInformOfFounds(kindOfFounds, startDay, endDay):
                 if itemNum == 0 :
                     print("표시할 수 없는 정보입니다.")
                 else:
-                    item_list = items_list[int(key)].childNodes
-                    detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item_list[0].firstChild.nodeValue+"&FD_SN="+item_list[6].firstChild.nodeValue+serviceKey
                     try:
-                        xmlFD = urlopen(detailURL)
-                    except IOError:
-                        print ("※URL 접근에 실패하였습니다.※")
-                    else:
+                        tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml())) #ElementTree 
+                        print("1..........................")                        
+                        items = tree.getiterator("item")  
+                        for i, item in enumerate(items):
+                            if i == int(key):
+                                detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item.find("atcId").text +"&FD_SN="+item.find("fdSn").text+serviceKey
+                        print("3..........................")                        
                         try:
-                            detailOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
-                        except Exception:
-                            print ("※읽어오기가 실패하였습니다.※")
+                            xmlFD = urlopen(detailURL)
+                        except IOError:
+                            print ("※URL 접근에 실패하였습니다.※")
                         else:
-                            print ("세부 정보를 출력합니다.")
-                            response = detailOfFoundsXMLDoc.childNodes
-                            rsp_child = response[0].childNodes
-                            #for item in rsp_child:
-                            #    if item.nodeName == "body":                 
-                            #        body_list = item.childNodes   
-                            print(rsp_child[1])
-                            body_list = rsp_child[1].childNodes
-                            print(len(body_list))
-                            item = body_list[0]           
-                            print(item)
-                            item_list = item.childNodes
-                            for founds_detail in item_list:
-                                print(founds_detail_dic[founds_detail.nodeName], founds_detail.firstChild.nodeValue)
-                            while 1:
-                                print("뒤로 가기 : [, 종료 : q")
-                                key = input("원하는 메뉴를 입력하세요. :")
-                                if key != '[' and key != 'q': 
-                                    print("※잘못된 입력입니다.※")
-                                elif key == '[':
-                                    break
-                                else :
-                                    return None
-                            break
+                            try:
+                                detailOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+                            except Exception:
+                                print ("※읽어오기가 실패하였습니다.※")
+                            else:
+                                print ("세부 정보를 출력합니다.")
+                                response = detailOfFoundsXMLDoc.childNodes
+                                rsp_child = response[0].childNodes
+                                #for item in rsp_child:
+                                #    if item.nodeName == "body":                 
+                                #        body_list = item.childNodes   
+                                print(rsp_child[1])
+                                body_list = rsp_child[1].childNodes
+                                print(len(body_list))
+                                item = body_list[0]           
+                                print(item)
+                                item_list = item.childNodes
+                                for founds_detail in item_list:
+                                    print(founds_detail_dic[founds_detail.nodeName], founds_detail.firstChild.nodeValue)
+                                while 1:
+                                    print("뒤로 가기 : [, 종료 : q")
+                                    key = input("원하는 메뉴를 입력하세요. :")
+                                    if key != '[' and key != 'q': 
+                                        print("※잘못된 입력입니다.※")
+                                    elif key == '[':
+                                        break
+                                    else :
+                                        return None
+                                break
+                    except Exception:
+                        print ("※트리 파싱에 에러가 발생하였습니다.※")
+                        break
+
                 
             
 def PrintInformOfLosts(kindOfLosts, startDay, endDay):
