@@ -1,6 +1,7 @@
 from xml.dom.minidom import parse, parseString # minidom 모듈의 파싱 함수를 임포트합니다.
 from xml.etree import ElementTree
 from urllib.request import urlopen, quote
+from gmail import *
 from os import system
 
 #xmlFD = -1
@@ -178,6 +179,7 @@ def PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum):
                     except Exception:
                         print ("※읽어오기가 실패하였습니다.※")
                     else:
+                        goodsDetailList = []
                         print ("세부 정보를 출력합니다.")
                         response = detailOfFoundsXMLDoc.childNodes
                         rsp_child = response[0].childNodes  
@@ -186,12 +188,19 @@ def PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum):
                         item_list = item.childNodes
                         for founds_detail in item_list:
                             print(founds_detail_dic[founds_detail.nodeName], founds_detail.firstChild.nodeValue)
+                            goodsDetailList.append ((founds_detail_dic[founds_detail.nodeName], founds_detail.firstChild.nodeValue))
+                            
+                            
                         while 1:
-                            print("뒤로 가기 : [, 종료 : q")
+                            print("뒤로 가기 : [, Email 발신 : e, 종료 : q")
                             key = input("원하는 메뉴를 입력하세요. :")
-                            if key != '[' and key != 'q': 
+                            if key != '[' and key != 'e' and key != 'q': 
                                 print("※잘못된 입력입니다.※")
                             elif key == '[':
+                                return pageNum
+                            elif key == 'e':
+                                #print(goodsDetailList)
+                                sendMain(goodsDetailList, "습득물")
                                 return pageNum
                             else :
                                 return None
@@ -341,6 +350,7 @@ def PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum):
                     except Exception:
                         print ("※읽어오기가 실패하였습니다.※")
                     else:
+                        goodsDetailList = []
                         print ("세부 정보를 출력합니다.")
                         response = detailOfLostsXMLDoc.childNodes
                         rsp_child = response[0].childNodes  
@@ -349,12 +359,17 @@ def PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum):
                         item_list = item.childNodes
                         for losts_detail in item_list:
                             print(losts_detail_dic[losts_detail.nodeName], losts_detail.firstChild.nodeValue)
+                            goodsDetailList.append ((losts_detail_dic[losts_detail.nodeName], losts_detail.firstChild.nodeValue))
                         while 1:
-                            print("뒤로 가기 : [, 종료 : q")
+                            print("뒤로 가기 : [, Email 발신 : e, 종료 : q")
                             key = input("원하는 메뉴를 입력하세요. :")
-                            if key != '[' and key != 'q': 
+                            if key != '[' and key != 'e' and key != 'q': 
                                 print("※잘못된 입력입니다.※")
                             elif key == '[':
+                                return pageNum
+                            elif key == 'e':
+                                #print(goodsDetailList)
+                                sendMain(goodsDetailList, "분실물")
                                 return pageNum
                             else :
                                 return None
