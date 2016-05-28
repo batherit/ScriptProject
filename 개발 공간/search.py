@@ -104,10 +104,20 @@ def InputAddr():
             addr.replace(' ','_')
             return addr
 
-def PrintCodeOfFounds(founds_inform_dic, founds_detail_dic, totalURL, pageNum):
+def PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum):
     global informOfFoundsXMLDoc
     itemNum = 0
     items_list = None
+    
+    founds_detail_dic = \
+    { 
+        "fdPrdtNm" : "물품명 :", "atcId" : "관리 ID :", "fdSn" : "습득 순번 :",
+        "fdFilePathImg" : "습득물 사진 경로 :", "fdYmd" : "습득 일자 :", "fdHor" : "습득 시간 :",
+        "fdPlace" : "습득 장소 :", "prdtClNm" : "물품 분류명 :", "depPlace" : "보관 장소 :",
+        "csteSteNm" : "보관 상태 :", "fndKeepOrgnSeNm" : "습득물 보관 기관 구분명 :", 
+        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "tel" : "전화번호 :", "uniq" : "특이사항 :"
+    }
+    
     try:
         xmlFD = urlopen(totalURL)
     except IOError:
@@ -203,21 +213,12 @@ def PrintInformOfFoundsByAddr(addr, founds):
         "addr" : "기관 도로명 주소 :", "depPlace" : "관리 장소 :", "fdYmd" : "습득 날짜 :"
     }
     
-    founds_detail_dic = \
-    { 
-        "fdPrdtNm" : "물품명 :", "atcId" : "관리 ID :", "fdSn" : "습득 순번 :",
-        "fdFilePathImg" : "습득물 사진 경로 :", "fdYmd" : "습득 일자 :", "fdHor" : "습득 시간 :",
-        "fdPlace" : "습득 장소 :", "prdtClNm" : "물품 분류명 :", "depPlace" : "보관 장소 :",
-        "csteSteNm" : "보관 상태 :", "fndKeepOrgnSeNm" : "습득물 보관 기관 구분명 :", 
-        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "tel" : "전화번호 :", "uniq" : "특이사항 :"
-    }
-    
     while 1:
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?"
         optionURL = "PRDT_NM="+quote(founds)+"&ADDR="+quote(addr)+"&pageNo="+str(pageNum)
         totalURL = basedURL+optionURL+serviceKey
         #print(totalURL)
-        pageNum = PrintCodeOfFounds(founds_inform_dic, founds_detail_dic, totalURL, pageNum)
+        pageNum = PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum)
         if pageNum == None :
             return None
         
@@ -234,21 +235,12 @@ def PrintInformOfFoundsByKind(kindOfFounds, startDay, endDay):
         "fdFilePathImg" : "이미지 경로 :", "depPlace" : "관리 장소 :", "fdYmd" : "습득 날짜 :"
     }
     
-    founds_detail_dic = \
-    { 
-        "fdPrdtNm" : "물품명 :", "atcId" : "관리 ID :", "fdSn" : "습득 순번 :",
-        "fdFilePathImg" : "습득물 사진 경로 :", "fdYmd" : "습득 일자 :", "fdHor" : "습득 시간 :",
-        "fdPlace" : "습득 장소 :", "prdtClNm" : "물품 분류명 :", "depPlace" : "보관 장소 :",
-        "csteSteNm" : "보관 상태 :", "fndKeepOrgnSeNm" : "습득물 보관 기관 구분명 :", 
-        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "tel" : "전화번호 :", "uniq" : "특이사항 :"
-    }
-    
     while 1:
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
         optionURL = "PRDT_CL_CD_01="+kindOfFounds+"&START_YMD="+startDay+"&END_YMD="+endDay+"&pageNo="+str(pageNum)
         totalURL = basedURL+optionURL+serviceKey
         #print(totalURL)
-        pageNum = PrintCodeOfFounds(founds_inform_dic, founds_detail_dic, totalURL, pageNum)
+        pageNum = PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum)
         if pageNum == None :
             return None
 
@@ -274,10 +266,18 @@ def WhatLostIt():
             kind.replace(' ','_')
             return kind
             
-def PrintCodeOfLosts(losts_inform_dic, losts_detail_dic, totalURL, pageNum):
+def PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum):
     global informOfLostsXMLDoc
     itemNum = 0
     items_list = None
+    
+    losts_detail_dic = \
+    {
+        "atcId" : "관리 ID :", "clrNm" : "색상 코드 명 :", "lstFilePathImg" : "분실물 이미지 경로 :",
+        "lstHor" : "분실 시간 :", "lstLctNm" : "분실 지역명 :", "lstPlace" : "분실 장소명 :", "lstPlaceSeNm" : "분실 장소 구분명 :",
+        "lstPrdtNm" : "물품명 :", "lstSbjt" : "게시 제목 :", "lstSteNm" : "분실물 상태명 :", "lstYmd" : "분실 일자 :",
+        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "prdtClNm" : "물품 분류명 :", "tel" : "기관 전화 번호 :", "uniq" : "특이사항 :"
+    }
     
     try:
         xmlFD = urlopen(totalURL)
@@ -374,20 +374,12 @@ def PrintInformOfLostsByLocation(location, losts):
         "lstPrdtNm" : "분실물명 :", "lstSbjt" : "게시 제목 :", "lstYmd": "분실물 등록 날짜 :"
     }
     
-    losts_detail_dic = \
-    {
-        "atcId" : "관리 ID :", "clrNm" : "색상 코드 명 :", "lstFilePathImg" : "분실물 이미지 경로 :",
-        "lstHor" : "분실 시간 :", "lstLctNm" : "분실 지역명 :", "lstPlace" : "분실 장소명 :", "lstPlaceSeNm" : "분실 장소 구분명 :",
-        "lstPrdtNm" : "물품명 :", "lstSbjt" : "게시 제목 :", "lstSteNm" : "분실물 상태명 :", "lstYmd" : "분실 일자 :",
-        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "prdtClNm" : "물품 분류명 :", "tel" : "기관 전화 번호 :", "uniq" : "특이사항 :"
-    }
-    
     while 1:
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?"
         optionURL = "LST_PLACE="+quote(location)+"&LST_PRDT_NM="+quote(losts)+"&pageNo="+str(pageNum)
         totalURL = basedURL+optionURL+serviceKey
         #print(totalURL)
-        pageNum = PrintCodeOfLosts(losts_inform_dic, losts_detail_dic, totalURL, pageNum)
+        pageNum = PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum)
         if pageNum == None :
             return None
             
@@ -401,20 +393,13 @@ def PrintInformOfLostsByKind(kindOfLosts, startDay, endDay):
         "lstPrdtNm" : "분실물명 :", "lstSbjt" : "게시 제목 :", "lstYmd": "분실물 등록 날짜 :"
     }
     
-    losts_detail_dic = \
-    {
-        "atcId" : "관리 ID :", "clrNm" : "색상 코드 명 :", "lstFilePathImg" : "분실물 이미지 경로 :",
-        "lstHor" : "분실 시간 :", "lstLctNm" : "분실 지역명 :", "lstPlace" : "분실 장소명 :", "lstPlaceSeNm" : "분실 장소 구분명 :",
-        "lstPrdtNm" : "물품명 :", "lstSbjt" : "게시 제목 :", "lstSteNm" : "분실물 상태명 :", "lstYmd" : "분실 일자 :",
-        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "prdtClNm" : "물품 분류명 :", "tel" : "기관 전화 번호 :", "uniq" : "특이사항 :"
-    }
     
     while 1:
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?"
         optionURL = "PRDT_CL_CD_01="+kindOfLosts+"&START_YMD="+startDay+"&END_YMD="+endDay+"&pageNo="+str(pageNum)
         totalURL = basedURL+optionURL+serviceKey
         #print(totalURL)
-        pageNum = PrintCodeOfLosts(losts_inform_dic, losts_detail_dic, totalURL, pageNum)
+        pageNum = PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum)
         if pageNum == None :
             return None
             
