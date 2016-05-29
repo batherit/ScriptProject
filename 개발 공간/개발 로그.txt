@@ -38,3 +38,7 @@ urlopen(URL)은 해당 URL에 대한 xml파일을 불러온다.
 
 알게 된 것
 quote를 통해 UTF-8로 디코딩 가능
+
+2016/05/29
+PyQt4 기반 GUI 인터페이스 구축 중
+system("cls")로 화면 정리 정돈
