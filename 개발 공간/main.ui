@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>widget</class>
+ <widget class="QWidget" name="widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>553</width>
+    <height>359</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>분실물 센터 서비스</string>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>231</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>습득물</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>20</y>
+     <width>231</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>분실물</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>widget</receiver>
+   <slot>menu_founds()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>89</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>266</x>
+     <y>72</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>widget</receiver>
+   <slot>menu_losts()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>345</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>menu_founds()</slot>
+  <slot>menu_losts()</slot>
+ </slots>
+</ui>

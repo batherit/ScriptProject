@@ -66,7 +66,6 @@ def SelectKindOfGoods():
                 if 0 == i % 3 :
                     print('')
                 print("{0:<2}. {1:<10}".format(i, item_list[1].firstChild.nodeValue), end = '')
-    print("")
     while 1:        
         kindIdx=int(input("위 목록 중 찾을 물품 종류를 골라주세요.^^:"))
         if 0 <= kindIdx <= 18:
@@ -129,6 +128,7 @@ def PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum):
         except Exception:
             print ("※읽어오기가 실패하였습니다.※")
         else:
+            system('cls')
             print ("검색 조건에 해당하는 정보들을 출력합니다.")
             response = informOfFoundsXMLDoc.childNodes
             rsp_child = response[0].childNodes 
@@ -179,6 +179,7 @@ def PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum):
                     except Exception:
                         print ("※읽어오기가 실패하였습니다.※")
                     else:
+                        system('cls')
                         goodsDetailList = []
                         print ("세부 정보를 출력합니다.")
                         response = detailOfFoundsXMLDoc.childNodes
@@ -298,6 +299,7 @@ def PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum):
         except Exception:
             print ("※읽어오기가 실패하였습니다.※")
         else:
+            system('cls')
             print ("검색 조건에 해당하는 정보들을 출력합니다.")
             response = informOfLostsXMLDoc.childNodes
             rsp_child = response[0].childNodes
@@ -350,6 +352,7 @@ def PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum):
                     except Exception:
                         print ("※읽어오기가 실패하였습니다.※")
                     else:
+                        system('cls')
                         goodsDetailList = []
                         print ("세부 정보를 출력합니다.")
                         response = detailOfLostsXMLDoc.childNodes

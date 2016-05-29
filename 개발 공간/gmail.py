@@ -52,10 +52,10 @@ def sendMain(goodsDetailList, about):
     print("다음의 메일 양식을 작성해주세요.")
     html = ""
     title = str(input ('제목 :'))
-    senderAddr = str(input ('보내는 메일 주소 :'))
+    senderAddr = "batherit0703@gmail.com" #senderAddr = str(input ('보내는 메일 주소 :'))
     recipientAddr = str(input ('받는 메일 주소 :'))
     msgtext = str(input ('내용 :'))
-    passwd = str(input ('보내는 메일 주소의 비밀번호 :'))
+    passwd = "7391561bit"# str(input ('보내는 메일 주소의 비밀번호 :'))
     msgtext = str(input ('상세정보 내용을 추가할까요? (y/n):'))
     if msgtext == 'y' :
         #keyword = str(input ('input keyword to search:'))
