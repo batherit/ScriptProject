@@ -13,6 +13,9 @@ foundsDoc = None
 informOfFoundsXMLDoc = None
 informOfLostsXMLDoc = None
 
+foundsDetailBasket = []
+lostsDetailBasket = []
+
 serviceKey = "&ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D"
         
         
@@ -63,9 +66,10 @@ def SelectKindOfGoods():
             items_list = items.childNodes
             for i, item in enumerate(items_list):
                 item_list = item.childNodes
-                if 0 == i % 3 :
-                    print('')
                 print("{0:<2}. {1:<10}".format(i, item_list[1].firstChild.nodeValue), end = '')
+                if 0 == (i+1) % 3 :
+                    print('')
+    print("")
     while 1:        
         kindIdx=int(input("위 목록 중 찾을 물품 종류를 골라주세요.^^:"))
         if 0 <= kindIdx <= 18:
@@ -106,6 +110,8 @@ def InputAddr():
 
 def PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum):
     global informOfFoundsXMLDoc
+    global foundsDetailBasket
+    global lostsDetailBasket
     itemNum = 0
     items_list = None
     
@@ -193,15 +199,25 @@ def PrintCodeOfFounds(founds_inform_dic, totalURL, pageNum):
                             
                             
                         while 1:
-                            print("뒤로 가기 : [, Email 발신 : e, 종료 : q")
+                            print("뒤로 가기 : [, Email 발신 : e, 정보 담기 : g, 리스트 Email 발신 : l, 종료 : q")
                             key = input("원하는 메뉴를 입력하세요. :")
-                            if key != '[' and key != 'e' and key != 'q': 
+                            if key != '[' and key != 'e' and key != 'g' and key!= 'l' and key != 'q': 
                                 print("※잘못된 입력입니다.※")
                             elif key == '[':
                                 return pageNum
                             elif key == 'e':
                                 #print(goodsDetailList)
                                 sendMain(goodsDetailList, "습득물")
+                                return pageNum
+                            elif key == 'g': 
+                                foundsDetailBasket.append(goodsDetailList)
+                                print("바구니에 정보를 담았습니다.")
+                                return pageNum
+                            elif key == 'l':
+                                foundsDetailBasket.append(goodsDetailList)
+                                sendDetailBasket(foundsDetailBasket,lostsDetailBasket  ,"정보 바구니 목록")
+                                lostsDetailBasket.clear()
+                                foundsDetailBasket.clear()
                                 return pageNum
                             else :
                                 return None
@@ -278,6 +294,8 @@ def WhatLostIt():
             
 def PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum):
     global informOfLostsXMLDoc
+    global foundsDetailBasket
+    global lostsDetailBasket
     itemNum = 0
     items_list = None
     
@@ -364,15 +382,25 @@ def PrintCodeOfLosts(losts_inform_dic, totalURL, pageNum):
                             print(losts_detail_dic[losts_detail.nodeName], losts_detail.firstChild.nodeValue)
                             goodsDetailList.append ((losts_detail_dic[losts_detail.nodeName], losts_detail.firstChild.nodeValue))
                         while 1:
-                            print("뒤로 가기 : [, Email 발신 : e, 종료 : q")
+                            print("뒤로 가기 : [, Email 발신 : e, 정보 담기 : g, 리스트 Email 발신 : l, 종료 : q")
                             key = input("원하는 메뉴를 입력하세요. :")
-                            if key != '[' and key != 'e' and key != 'q': 
+                            if key != '[' and key != 'e' and key != 'g' and key!= 'l' and key != 'q': 
                                 print("※잘못된 입력입니다.※")
                             elif key == '[':
                                 return pageNum
                             elif key == 'e':
                                 #print(goodsDetailList)
                                 sendMain(goodsDetailList, "분실물")
+                                return pageNum
+                            elif key == 'g': 
+                                lostsDetailBasket.append(goodsDetailList)
+                                print("바구니에 정보를 담았습니다.")
+                                return pageNum
+                            elif key == 'l':
+                                lostsDetailBasket.append(goodsDetailList)
+                                sendDetailBasket(foundsDetailBasket,lostsDetailBasket  ,"정보 바구니 목록")
+                                lostsDetailBasket.clear()
+                                foundsDetailBasket.clear()
                                 return pageNum
                             else :
                                 return None

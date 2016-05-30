@@ -14,17 +14,13 @@ loopFlag = 1
 #### Menu  implementation
 def printMenu():
     print("========<<메뉴>>==========")
-    print("xml 파일을 읽어옵니다.: r")
     print("습득물 검색 : f")
     print("분실물 검색 : l")
     print("프로그램을 종료합니다.: q")
     print("==================")
 
 def launcherFunction(menu):
-    global LostsDoc
-    if menu ==  'r':
-        LoadXMLFromWeb()
-    elif menu == 'f':
+    if menu == 'f':
         if checkKOGDoc() :
             while 1:    
                 print("습득물 페이지입니다.^^")
@@ -81,13 +77,14 @@ def QuitLAF():
 
 
 ##### run #####
+LoadXMLFromWeb()
 print("안녕하세요. '분실물 찾아요' 서비스입니다.")
 while(loopFlag > 0):
     printMenu()
     menuKey = str(input ('메뉴를 선택해주세요.^^ :'))
     system('cls')
     launcherFunction(menuKey)
-    #system('cls')
+    system('cls')
 else:
     print ("감사합니다. 좋은 하루되세요~^^")
     
