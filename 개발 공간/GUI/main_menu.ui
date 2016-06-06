@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>widget</class>
- <widget class="QWidget" name="widget">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>359</height>
+    <width>550</width>
+    <height>360</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
   <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
-   <receiver>widget</receiver>
+   <receiver>Form</receiver>
    <slot>menu_founds()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -61,7 +61,7 @@
   <connection>
    <sender>pushButton_2</sender>
    <signal>clicked()</signal>
-   <receiver>widget</receiver>
+   <receiver>Form</receiver>
    <slot>menu_losts()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>935</width>
+    <height>531</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>습득물 상세 정보</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>591</width>
+     <height>441</height>
+    </rect>
+   </property>
+   <attribute name="horizontalHeaderCascadingSectionResizes">
+    <bool>true</bool>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>500</number>
+   </attribute>
+   <attribute name="horizontalHeaderHighlightSections">
+    <bool>true</bool>
+   </attribute>
+   <attribute name="verticalHeaderDefaultSectionSize">
+    <number>50</number>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>물품명</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>습득 일자</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>습득 시간</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>습득 장소</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>관리 ID</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>보관 상태</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>보관 장소</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>문의번호</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>특이사항</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>내용</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="8" column="0">
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>이메일 전송</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>창 닫기</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>482</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>정보 담기</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>70</y>
+     <width>261</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>310</y>
+     <width>261</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>40</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>습득물 정보 목록</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>280</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>분실물 정보 목록</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>480</y>
+     <width>241</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>정보 목록 이메일 전송</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>511</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>186</x>
+     <y>509</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>transmit_email()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>511</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>427</x>
+     <y>503</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>put_on_list()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>582</x>
+     <y>506</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>626</x>
+     <y>502</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>transmit_email_list()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>835</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>910</x>
+     <y>488</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>click_close()</slot>
+  <slot>transmit_email()</slot>
+  <slot>put_on_list()</slot>
+  <slot>transmit_email_list()</slot>
+  <slot>click_founds_list(QModelIndex)</slot>
+ </slots>
+</ui>
