@@ -63,10 +63,10 @@ class Ui_Form(object):
         self.tableWidget.horizontalHeader().setHighlightSections(True)
         self.tableWidget.verticalHeader().setDefaultSectionSize(50)
         self.pushButton = QtGui.QPushButton(Form)
-        self.pushButton.setGeometry(QtCore.QRect(250, 480, 131, 41))
+        self.pushButton.setGeometry(QtCore.QRect(330, 480, 131, 41))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.pushButton_2 = QtGui.QPushButton(Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(20, 480, 131, 41))
+        self.pushButton_2.setGeometry(QtCore.QRect(30, 480, 131, 41))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
         self.pushButton_3 = QtGui.QPushButton(Form)
         self.pushButton_3.setGeometry(QtCore.QRect(482, 480, 131, 41))
@@ -86,12 +86,16 @@ class Ui_Form(object):
         self.pushButton_4 = QtGui.QPushButton(Form)
         self.pushButton_4.setGeometry(QtCore.QRect(650, 480, 241, 41))
         self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
+        self.pushButton_5 = QtGui.QPushButton(Form)
+        self.pushButton_5.setGeometry(QtCore.QRect(180, 480, 131, 41))
+        self.pushButton_5.setObjectName(_fromUtf8("pushButton_5"))
 
         self.retranslateUi(Form)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.click_close)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.transmit_email)
         QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.put_on_list)
         QtCore.QObject.connect(self.pushButton_4, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.transmit_email_list)
+        QtCore.QObject.connect(self.pushButton_5, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.print_image)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -125,4 +129,5 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "습득물 정보 목록", None))
         self.label_2.setText(_translate("Form", "분실물 정보 목록", None))
         self.pushButton_4.setText(_translate("Form", "정보 목록 이메일 전송", None))
+        self.pushButton_5.setText(_translate("Form", "이미지 보기", None))
 

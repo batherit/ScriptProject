@@ -14,6 +14,8 @@ import founds_addr_search_menu_ui
 import founds_kind_search_menu_ui
 import founds_detail_menu_ui
 
+import webbrowser
+
 kindOfGoodsXMLDoc = None
 
 lostsDoc = None
@@ -26,6 +28,7 @@ foundsDetailBasket = []
 lostsDetailBasket = []
 
 serviceKey = "&ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D"
+chrome_path = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 
 class MyFoundsMenuForm(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -61,6 +64,7 @@ class MyLostsMenuForm(QtGui.QMainWindow):
         
 class MyFoundsDetailMenuForm(QtGui.QMainWindow):
     goodsDetailList = []
+    detailOfFoundsXMLDoc = None
     def __init__(self, parent=None, row=0, col=0):
         global informOfFoundsXMLDoc
         #global row, col
@@ -88,13 +92,13 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
                 print ("※URL 접근에 실패하였습니다.※")
             else:
                 try:
-                    detailOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+                    self.detailOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
                 except Exception:
                     print ("※읽어오기가 실패하였습니다.※")
                 else:
                     #goodsDetailList = []
                     print ("세부 정보를 출력합니다.")
-                    tree = ElementTree.fromstring(str(detailOfFoundsXMLDoc.toxml()))
+                    tree = ElementTree.fromstring(str(self.detailOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")    
                     for item in items:
                         for i in range(9):
@@ -106,6 +110,7 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         return
 
     def click_close(self):
+        if self.detailOfFoundsXMLDoc != None : self.detailOfFoundsXMLDoc.unlink()
         self.close()
         return
         
@@ -113,6 +118,13 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         self.transmitEmailMenu = MyTransmitEmailMenuForm(None, self.goodsDetailList, "습득물")
         self.transmitEmailMenu.show()
         self.goodsDetailList.clear()
+        return
+    def print_image(self):
+        global chrome_path
+        tree = ElementTree.fromstring(str(self.detailOfFoundsXMLDoc.toxml()))
+        items = tree.getiterator("item")    
+        for item in items:
+            webbrowser.get(chrome_path).open(item.find("fdFilePathImg").text)
         return
         
     def put_on_list(self):
@@ -130,6 +142,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         QtGui.QWidget.__init__(self, parent)
         self.ui = founds_addr_search_menu_ui.Ui_Form()
         self.ui.setupUi(self)
+        for i in range(10):
+            for j in range(4):
+                self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
         
     def founds_addr_search(self):
         global serviceKey
@@ -158,6 +173,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
+                    for i in range(10):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
@@ -169,7 +187,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         return
     
     def founds_print_detail(self, row, col):
-        if not bool(self.ui.tableWidget.item(row, col)): return
+        if "-" == (self.ui.tableWidget.item(row, col)).text() : return
         self.foundsDetailMenu = MyFoundsDetailMenuForm(None, row, col)
         self.foundsDetailMenu.show()
         return
@@ -200,6 +218,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
+                    for i in range(10):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
@@ -236,6 +257,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
+                    for i in range(10):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
@@ -278,6 +302,10 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         self.items = self.body_list[0]
         self.items_list = self.items.childNodes
         
+        for i in range(10):
+            for j in range(4):
+                self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
+        
     def founds_kind_search(self):
         global serviceKey
         global informOfFoundsXMLDoc
@@ -306,6 +334,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
+                    for i in range(10):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
@@ -317,7 +348,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         return
     
     def founds_print_detail(self, row, col):
-        if not bool(self.ui.tableWidget.item(row, col)): return
+        if "-" == (self.ui.tableWidget.item(row, col)).text() : return
         self.foundsDetailMenu = MyFoundsDetailMenuForm(None, row, col)
         self.foundsDetailMenu.show()
         return
@@ -348,6 +379,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
+                    for i in range(10):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
@@ -384,6 +418,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
+                    for i in range(10):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
