@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>392</height>
+    <width>1018</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>260</x>
      <y>20</y>
      <width>531</width>
      <height>101</height>
@@ -85,47 +85,56 @@
     </property>
    </widget>
   </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>500</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&gt;&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>500</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;&lt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>500</y>
+     <width>93</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>뒤로 가기</string>
+   </property>
+  </widget>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>130</y>
-     <width>511</width>
-     <height>211</height>
+     <x>30</x>
+     <y>150</y>
+     <width>961</width>
+     <height>331</height>
     </rect>
    </property>
-   <property name="minimumSize">
-    <size>
-     <width>100</width>
-     <height>200</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>531</width>
-     <height>211</height>
-    </size>
-   </property>
-   <property name="showGrid">
-    <bool>true</bool>
-   </property>
-   <property name="rowCount">
-    <number>10</number>
-   </property>
-   <attribute name="horizontalHeaderVisible">
-    <bool>true</bool>
-   </attribute>
-   <attribute name="horizontalHeaderCascadingSectionResizes">
-    <bool>true</bool>
-   </attribute>
    <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>153</number>
-   </attribute>
-   <attribute name="horizontalHeaderHighlightSections">
-    <bool>true</bool>
-   </attribute>
-   <attribute name="verticalHeaderStretchLastSection">
-    <bool>false</bool>
+    <number>230</number>
    </attribute>
    <row>
     <property name="text">
@@ -179,12 +188,17 @@
    </row>
    <column>
     <property name="text">
-     <string>품목</string>
+     <string>품명</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>습득날짜</string>
+     <string>습득 일자</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>위치</string>
     </property>
    </column>
    <column>
@@ -192,55 +206,6 @@
      <string>내용</string>
     </property>
    </column>
-   <item row="0" column="0">
-    <property name="text">
-     <string/>
-    </property>
-   </item>
-   <item row="0" column="2">
-    <property name="text">
-     <string/>
-    </property>
-   </item>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>350</y>
-     <width>121</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&gt;&gt;</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_4">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>350</y>
-     <width>121</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;&lt;</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_5">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>350</y>
-     <width>93</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>뒤로 가기</string>
-   </property>
   </widget>
  </widget>
  <resources/>
@@ -294,22 +259,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>tableWidget</sender>
-   <signal>cellClicked(int,int)</signal>
-   <receiver>Form</receiver>
-   <slot>founds_print_detail(int,int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>43</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>10</x>
-     <y>186</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton_5</sender>
    <signal>clicked()</signal>
    <receiver>Form</receiver>
@@ -322,6 +271,22 @@
     <hint type="destinationlabel">
      <x>30</x>
      <y>384</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableWidget</sender>
+   <signal>cellClicked(int,int)</signal>
+   <receiver>Form</receiver>
+   <slot>founds_print_detail(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>73</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>72</x>
+     <y>68</y>
     </hint>
    </hints>
   </connection>

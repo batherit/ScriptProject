@@ -11,6 +11,7 @@ from PyQt4 import QtGui, QtCore
 import founds_menu_ui
 import losts_menu_ui
 import founds_addr_search_menu_ui
+import founds_kind_search_menu_ui
 import founds_detail_menu_ui
 
 kindOfGoodsXMLDoc = None
@@ -23,9 +24,6 @@ informOfLostsXMLDoc = None
 
 foundsDetailBasket = []
 lostsDetailBasket = []
-
-#row = 0
-#col = 0
 
 serviceKey = "&ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D"
 
@@ -43,6 +41,9 @@ class MyFoundsMenuForm(QtGui.QMainWindow):
         return
     
     def menu_founds_kind(self):
+        self.kindSearch = MyFoundsKindSearchForm()
+        self.kindSearch.show()
+        self.close()
         return
 
 class MyLostsMenuForm(QtGui.QMainWindow):
@@ -109,7 +110,7 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         return
         
     def transmit_email(self):
-        self.transmitEmailMenu = MyTransmitEmailMenuForm(None, self.goodsDetailList, "습득물 상세 정보")
+        self.transmitEmailMenu = MyTransmitEmailMenuForm(None, self.goodsDetailList, "습득물")
         self.transmitEmailMenu.show()
         self.goodsDetailList.clear()
         return
@@ -160,7 +161,8 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
-                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -201,7 +203,8 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
-                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -236,17 +239,166 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     for i, item in enumerate(items):
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
-                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
-        return
         return
     def click_back(self):
         global informOfFoundsXMLDoc
         
         self.founds = None
         self.addr = None
+        self.pageNum = 1
+        self.nItems = 0
+        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
+        
+        self.foundsMenu = MyFoundsMenuForm()
+        self.foundsMenu.show()
+        self.close()
+        return
+        
+class MyFoundsKindSearchForm(QtGui.QMainWindow):
+    pageNum = 1
+    kind = None
+    startDay = None
+    endDay = None
+    items_list = None
+    
+    def __init__(self, parent=None):
+        global kindOfGoodsXMLDoc
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = founds_kind_search_menu_ui.Ui_Form()
+        self.ui.setupUi(self)
+        
+        self.response = kindOfGoodsXMLDoc.childNodes
+        self.rsp_child = self.response[0].childNodes
+        self.body_list = self.rsp_child[1].childNodes
+        self.items = self.body_list[0]
+        self.items_list = self.items.childNodes
+        
+    def founds_kind_search(self):
+        global serviceKey
+        global informOfFoundsXMLDoc
+        
+        self.kind = (self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
+        self.startDay = self.ui.lineEdit.text()
+        self.endDay = self.ui.lineEdit_2.text()
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
+        optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        
+        print(totalURL)
+        
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                try:
+                    tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
+                    items = tree.getiterator("item")
+                    #self.ui.tableWidget.clear()
+                    for i, item in enumerate(items):
+                        self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
+                        self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                except Exception:
+                    print ("※트리 파싱에 에러가 발생하였습니다.※")
+                  
+        return
+    
+    def founds_print_detail(self, row, col):
+        if not bool(self.ui.tableWidget.item(row, col)): return
+        self.foundsDetailMenu = MyFoundsDetailMenuForm(None, row, col)
+        self.foundsDetailMenu.show()
+        return
+        
+    def click_next(self):
+        global informOfFoundsXMLDoc
+        
+        if not checkIOFDoc(): return
+        self.pageNum += 1;
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
+        optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        
+        print(totalURL)
+        
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                try:
+                    tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
+                    items = tree.getiterator("item")
+                    #self.ui.tableWidget.clear()
+                    for i, item in enumerate(items):
+                        self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
+                        self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                except Exception:
+                    print ("※트리 파싱에 에러가 발생하였습니다.※")
+                  
+        return
+    def click_prev(self):
+        global informOfFoundsXMLDoc
+        
+        if not checkIOFDoc(): return
+        if self.pageNum == 1 : return        
+        self.pageNum -= 1;
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
+        optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        
+        print(totalURL)
+        
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                try:
+                    tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
+                    items = tree.getiterator("item")
+                    #self.ui.tableWidget.clear()
+                    for i, item in enumerate(items):
+                        self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
+                        self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                except Exception:
+                    print ("※트리 파싱에 에러가 발생하였습니다.※")
+                  
+        return
+    def click_back(self):
+        global informOfFoundsXMLDoc
+        
+        self.kind = None
+        self.startDay = None
+        self.endDay = None
         self.pageNum = 1
         self.nItems = 0
         if checkIOFDoc(): informOfFoundsXMLDoc.unlink()

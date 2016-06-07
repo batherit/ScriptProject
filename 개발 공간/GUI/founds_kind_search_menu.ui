@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1018</width>
+    <height>560</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>종류 기반 습득물 검색</string>
+  </property>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>500</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;&lt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>500</y>
+     <width>93</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>뒤로 가기</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>961</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>230</number>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>7</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>9</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>10</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>품명</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>습득 일자</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>관리 장소</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>내용</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>500</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&gt;&gt;</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>20</y>
+     <width>531</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>습득물에 관한 정보 입력</string>
+   </property>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>60</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>30</y>
+      <width>64</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>종류 선택</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>60</y>
+      <width>64</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>기간 입력</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>30</y>
+      <width>93</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>검색</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>30</y>
+      <width>281</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>가방</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>도서용품</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>사무용품</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>산업용품</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>스포츠용품</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>자동차</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>전자기기</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>지갑</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>컴퓨터</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>휴대폰</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>의류</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>현금</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>유가증권</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>증명서</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>귀금속</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>카드</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>쇼핑백</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>악기</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>기타물품</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>60</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>60</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> ~</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>founds_kind_search()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>744</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>840</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_back()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>95</x>
+     <y>521</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>521</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_prev()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>445</x>
+     <y>523</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>416</x>
+     <y>554</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_next()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>587</x>
+     <y>513</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>722</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableWidget</sender>
+   <signal>cellClicked(int,int)</signal>
+   <receiver>Form</receiver>
+   <slot>founds_print_detail(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>185</x>
+     <y>242</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>90</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>founds_kind_search()</slot>
+  <slot>click_back()</slot>
+  <slot>click_prev()</slot>
+  <slot>click_next()</slot>
+  <slot>founds_print_detail(int,int)</slot>
+ </slots>
+</ui>

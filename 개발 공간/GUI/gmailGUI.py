@@ -55,6 +55,14 @@ class MyTransmitEmailMenuForm(QtGui.QMainWindow):
         return
         
 def MakeHtmlDoc(goodsDetailList, about):
+    founds_detail_dic = \
+    { 
+        "fdPrdtNm" : "물품명 :", "atcId" : "관리 ID :", "fdSn" : "습득 순번 :",
+        "fdFilePathImg" : "습득물 사진 경로 :", "fdYmd" : "습득 일자 :", "fdHor" : "습득 시간 :",
+        "fdPlace" : "습득 장소 :", "prdtClNm" : "물품 분류명 :", "depPlace" : "보관 장소 :",
+        "csteSteNm" : "보관 상태 :", "fndKeepOrgnSeNm" : "습득물 보관 기관 구분명 :", 
+        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "tel" : "전화번호 :", "uniq" : "특이사항 :"
+    }
     from xml.dom.minidom import getDOMImplementation
     #get Dom Implementation
     impl = getDOMImplementation()
@@ -74,18 +82,15 @@ def MakeHtmlDoc(goodsDetailList, about):
 
     for goodsDetailItem in goodsDetailList:
         #create bold element
-        br = newdoc.createElement('br')
-        
         b = newdoc.createElement('b')
         #create text node
-        keyText = newdoc.createTextNode(goodsDetailItem[0])
+        keyText = newdoc.createTextNode(founds_detail_dic[goodsDetailItem[0]])
         b.appendChild(keyText)
         body.appendChild(b)
         
         msgText = newdoc.createTextNode(goodsDetailItem[1])
         body.appendChild(msgText)
-        
-        body.appendChild(br)
+        br = newdoc.createElement('br')
         body.appendChild(br)
          
     #append Body
