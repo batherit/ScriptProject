@@ -11,8 +11,109 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>습득물 상세 정보</string>
+   <string>분실물 상세 정보</string>
   </property>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>280</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>분실물 정보 목록</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>이미지 보기</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>482</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>정보 담기</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>이메일 전송</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>480</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>창 닫기</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>480</y>
+     <width>241</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>정보 목록 이메일 전송</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>40</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>습득물 정보 목록</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>310</y>
+     <width>261</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
@@ -41,32 +142,37 @@
    </row>
    <row>
     <property name="text">
-     <string>습득 일자</string>
+     <string>분실 일자</string>
     </property>
    </row>
    <row>
     <property name="text">
-     <string>습득 시간</string>
+     <string>분실 시간</string>
     </property>
    </row>
    <row>
     <property name="text">
-     <string>습득 장소</string>
+     <string>분실 지역</string>
     </property>
    </row>
    <row>
     <property name="text">
-     <string>관리 ID</string>
+     <string>분실 장소</string>
     </property>
    </row>
    <row>
     <property name="text">
-     <string>보관 상태</string>
+     <string>기관 ID</string>
     </property>
    </row>
    <row>
     <property name="text">
-     <string>보관 장소</string>
+     <string>접수 기관</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>분실물 상태</string>
     </property>
    </row>
    <row>
@@ -89,52 +195,16 @@
      <string/>
     </property>
    </item>
-   <item row="8" column="0">
+   <item row="9" column="0">
+    <property name="text">
+     <string/>
+    </property>
     <property name="font">
      <font>
       <pointsize>10</pointsize>
      </font>
     </property>
    </item>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>480</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>이메일 전송</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>480</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>창 닫기</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>482</x>
-     <y>480</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>정보 담기</string>
-   </property>
   </widget>
   <widget class="QListWidget" name="listWidget">
    <property name="geometry">
@@ -144,68 +214,6 @@
      <width>261</width>
      <height>151</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="listWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>640</x>
-     <y>310</y>
-     <width>261</width>
-     <height>151</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>40</y>
-     <width>141</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>습득물 정보 목록</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>280</y>
-     <width>131</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>분실물 정보 목록</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_4">
-   <property name="geometry">
-    <rect>
-     <x>650</x>
-     <y>480</y>
-     <width>241</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>정보 목록 이메일 전송</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_5">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>480</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>이미지 보기</string>
    </property>
   </widget>
  </widget>
@@ -218,60 +226,12 @@
    <slot>click_close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>76</x>
-     <y>511</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>186</x>
-     <y>509</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>Form</receiver>
-   <slot>transmit_email()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>376</x>
-     <y>511</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>427</x>
-     <y>503</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_3</sender>
-   <signal>clicked()</signal>
-   <receiver>Form</receiver>
-   <slot>put_on_list()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>582</x>
-     <y>506</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>626</x>
+     <x>64</x>
      <y>502</y>
     </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_4</sender>
-   <signal>clicked()</signal>
-   <receiver>Form</receiver>
-   <slot>transmit_email_list()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>835</x>
-     <y>507</y>
-    </hint>
     <hint type="destinationlabel">
-     <x>910</x>
-     <y>488</y>
+     <x>4</x>
+     <y>491</y>
     </hint>
    </hints>
   </connection>
@@ -282,12 +242,60 @@
    <slot>print_image()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>231</x>
-     <y>483</y>
+     <x>200</x>
+     <y>491</y>
     </hint>
     <hint type="destinationlabel">
-     <x>236</x>
-     <y>469</y>
+     <x>179</x>
+     <y>471</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>transmit_email()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>400</x>
+     <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>415</x>
+     <y>468</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>put_on_list()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>566</x>
+     <y>493</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>572</x>
+     <y>471</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>transmit_email_list()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>837</x>
+     <y>500</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>899</x>
+     <y>471</y>
     </hint>
    </hints>
   </connection>
@@ -298,12 +306,12 @@
    <slot>click_founds_list(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>815</x>
-     <y>184</y>
+     <x>700</x>
+     <y>110</y>
     </hint>
     <hint type="destinationlabel">
-     <x>881</x>
-     <y>35</y>
+     <x>685</x>
+     <y>40</y>
     </hint>
    </hints>
   </connection>
@@ -314,23 +322,23 @@
    <slot>click_losts_list(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>757</x>
-     <y>384</y>
+     <x>668</x>
+     <y>337</y>
     </hint>
     <hint type="destinationlabel">
-     <x>881</x>
-     <y>268</y>
+     <x>662</x>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>click_close()</slot>
+  <slot>print_image()</slot>
   <slot>transmit_email()</slot>
   <slot>put_on_list()</slot>
   <slot>transmit_email_list()</slot>
   <slot>click_founds_list(QModelIndex)</slot>
-  <slot>print_image()</slot>
   <slot>click_losts_list(QModelIndex)</slot>
  </slots>
 </ui>

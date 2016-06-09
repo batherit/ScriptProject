@@ -9,21 +9,32 @@ port = "587"
 
 class MyTransmitEmailMenuForm(QtGui.QMainWindow):
     #goodsDetailList = []
-    def __init__(self, parent=None, goodsDetailList = None, about = None):
+    def __init__(self, parent=None, foundsDetailList = None, lostsDetailList = None, about = None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = transmit_email_menu_ui.Ui_Form()
         self.ui.setupUi(self)
-        self.goodsDetailList = []
-        for item in goodsDetailList:
-            self.goodsDetailList.append(item)
+        
+        self.foundsDetailList = []
+        self.lostsDetailList = []
+        
+        for item in foundsDetailList:
+                self.foundsDetailList.append(item)
+                
+        if lostsDetailList != None:
+            for item in lostsDetailList:
+                self.lostsDetailList.append(item)
+        else :
+            self.lostsDetailList = None
         self.about = about
 
     def transmit_email(self):
         global host, port
         html = ""
 
-        html = MakeHtmlDoc(self.goodsDetailList, self.about)
-        
+        if self.lostsDetailList == None:
+            html = MakeHtmlDoc(self.foundsDetailList, self.about)
+        else :
+            html = MakeHtmlDocDetail(self.foundsDetailList, self.lostsDetailList, self.about)
         title = self.ui.lineEdit.text()
         senderAddr = self.ui.lineEdit_2.text()
         passwd = self.ui.lineEdit_3.text()
@@ -50,19 +61,11 @@ class MyTransmitEmailMenuForm(QtGui.QMainWindow):
         s.sendmail(senderAddr , [recipientAddr], msg.as_string())
         s.close()    
         print ("메일을 전송하였습니다.")
-        self.goodsDetailList.clear()
+        
         self.close()
         return
         
 def MakeHtmlDoc(goodsDetailList, about):
-    founds_detail_dic = \
-    { 
-        "fdPrdtNm" : "물품명 :", "atcId" : "관리 ID :", "fdSn" : "습득 순번 :",
-        "fdFilePathImg" : "습득물 사진 경로 :", "fdYmd" : "습득 일자 :", "fdHor" : "습득 시간 :",
-        "fdPlace" : "습득 장소 :", "prdtClNm" : "물품 분류명 :", "depPlace" : "보관 장소 :",
-        "csteSteNm" : "보관 상태 :", "fndKeepOrgnSeNm" : "습득물 보관 기관 구분명 :", 
-        "orgId" : "기관 ID :", "orgNm" : "기관명 :", "tel" : "전화번호 :", "uniq" : "특이사항 :"
-    }
     from xml.dom.minidom import getDOMImplementation
     #get Dom Implementation
     impl = getDOMImplementation()
@@ -84,7 +87,7 @@ def MakeHtmlDoc(goodsDetailList, about):
         #create bold element
         b = newdoc.createElement('b')
         #create text node
-        keyText = newdoc.createTextNode(founds_detail_dic[goodsDetailItem[0]])
+        keyText = newdoc.createTextNode(goodsDetailItem[0])
         b.appendChild(keyText)
         body.appendChild(b)
         
@@ -95,5 +98,82 @@ def MakeHtmlDoc(goodsDetailList, about):
          
     #append Body
     top_element.appendChild(body)
+    print("첨부 완료")
+    return newdoc.toxml()
+
+def MakeHtmlDocDetail(foundsDetailBasket, lostsDetailBasket, about):
+    from xml.dom.minidom import getDOMImplementation
+    #get Dom Implementation
+    impl = getDOMImplementation()
+    
+    newdoc = impl.createDocument(None, "html", None)  #dom 객체 생성
+    top_element = newdoc.documentElement # 해당 dom객체의 엘리먼트 객체 반환
+    header = newdoc.createElement('header') #dom 객체로부터 엘리먼트 생성
+    top_element.appendChild(header) #top_element 엘리먼트의 자식으로 header 엘리먼트 추가
+
+    # Body 엘리먼트 생성.
+    body = newdoc.createElement('body')
+    
+    p = newdoc.createElement('p')    
+    titleText = newdoc.createTextNode("'{0}'에 대한 상세 정보입니다.".format(about))
+    p.appendChild(titleText)
+    body.appendChild(p)
+    
+    p = newdoc.createElement('p')
+    titleText = newdoc.createTextNode("<습득물 상세 정보 리스트>")
+    p.appendChild(titleText)
+    body.appendChild(p)
+
+    for i, goodsDetailList in enumerate(foundsDetailBasket):
+        p = newdoc.createElement('p')
+        idxText = newdoc.createTextNode('[{0}]'.format(i+1))
+        p.appendChild(idxText)
+        body.appendChild(p)     
+        for goodsDetailItem in goodsDetailList:
+            b = newdoc.createElement('b')
+            #create text node
+            keyText = newdoc.createTextNode(goodsDetailItem[0])
+            b.appendChild(keyText)
+            body.appendChild(b)
+            
+            msgText = newdoc.createTextNode(goodsDetailItem[1])
+            body.appendChild(msgText)
+            br = newdoc.createElement('br')
+            body.appendChild(br)
+        #append Body
+        br = newdoc.createElement('br')
+        body.appendChild(br)
+    #top_element.appendChild(body)
+    br = newdoc.createElement('br')
+    body.appendChild(br)
+    body.appendChild(br)
+    
+    p = newdoc.createElement('p')
+    titleText = newdoc.createTextNode("<분실물 상세 정보 리스트>")
+    p.appendChild(titleText)
+    body.appendChild(p)
+
+    for i, goodsDetailList in enumerate(lostsDetailBasket):
+        p = newdoc.createElement('p')
+        idxText = newdoc.createTextNode('[{0}]'.format(i+1))
+        p.appendChild(idxText)
+        body.appendChild(p)     
+        for goodsDetailItem in goodsDetailList:
+            b = newdoc.createElement('b')
+            #create text node
+            keyText = newdoc.createTextNode(goodsDetailItem[0])
+            b.appendChild(keyText)
+            body.appendChild(b)
+            
+            msgText = newdoc.createTextNode(goodsDetailItem[1])
+            body.appendChild(msgText)
+            br = newdoc.createElement('br')
+            body.appendChild(br)
+        #append Body
+        br = newdoc.createElement('br')
+        body.appendChild(br)
+        
+    top_element.appendChild(body)
+        
     print("첨부 완료")
     return newdoc.toxml()

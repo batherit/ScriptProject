@@ -112,6 +112,9 @@ class Ui_Form(object):
         self.label_3 = QtGui.QLabel(self.groupBox)
         self.label_3.setGeometry(QtCore.QRect(250, 60, 31, 16))
         self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.pushButton_6 = QtGui.QPushButton(Form)
+        self.pushButton_6.setGeometry(QtCore.QRect(900, 500, 93, 31))
+        self.pushButton_6.setObjectName(_fromUtf8("pushButton_6"))
 
         self.retranslateUi(Form)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.founds_kind_search)
@@ -119,6 +122,7 @@ class Ui_Form(object):
         QtCore.QObject.connect(self.pushButton_4, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.click_prev)
         QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.click_next)
         QtCore.QObject.connect(self.tableWidget, QtCore.SIGNAL(_fromUtf8("cellClicked(int,int)")), Form.founds_print_detail)
+        QtCore.QObject.connect(self.pushButton_6, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.return_to_main)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -178,4 +182,5 @@ class Ui_Form(object):
         self.comboBox.setItemText(17, _translate("Form", "악기", None))
         self.comboBox.setItemText(18, _translate("Form", "기타물품", None))
         self.label_3.setText(_translate("Form", " ~", None))
+        self.pushButton_6.setText(_translate("Form", "처음으로", None))
 
