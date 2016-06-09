@@ -42,7 +42,7 @@ class Ui_Form(object):
         self.pushButton_2.setGeometry(QtCore.QRect(30, 480, 131, 41))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
         self.pushButton_4 = QtGui.QPushButton(Form)
-        self.pushButton_4.setGeometry(QtCore.QRect(650, 480, 241, 41))
+        self.pushButton_4.setGeometry(QtCore.QRect(650, 480, 111, 41))
         self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
         self.label = QtGui.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(710, 40, 141, 16))
@@ -91,6 +91,9 @@ class Ui_Form(object):
         self.listWidget = QtGui.QListWidget(Form)
         self.listWidget.setGeometry(QtCore.QRect(640, 70, 261, 151))
         self.listWidget.setObjectName(_fromUtf8("listWidget"))
+        self.pushButton_6 = QtGui.QPushButton(Form)
+        self.pushButton_6.setGeometry(QtCore.QRect(780, 480, 111, 41))
+        self.pushButton_6.setObjectName(_fromUtf8("pushButton_6"))
 
         self.retranslateUi(Form)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.click_close)
@@ -100,6 +103,7 @@ class Ui_Form(object):
         QtCore.QObject.connect(self.pushButton_4, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.transmit_email_list)
         QtCore.QObject.connect(self.listWidget, QtCore.SIGNAL(_fromUtf8("clicked(QModelIndex)")), Form.click_founds_list)
         QtCore.QObject.connect(self.listWidget_2, QtCore.SIGNAL(_fromUtf8("clicked(QModelIndex)")), Form.click_losts_list)
+        QtCore.QObject.connect(self.pushButton_6, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.preview)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -109,7 +113,7 @@ class Ui_Form(object):
         self.pushButton_3.setText(_translate("Form", "정보 담기", None))
         self.pushButton.setText(_translate("Form", "이메일 전송", None))
         self.pushButton_2.setText(_translate("Form", "창 닫기", None))
-        self.pushButton_4.setText(_translate("Form", "정보 목록 이메일 전송", None))
+        self.pushButton_4.setText(_translate("Form", "목록 전송", None))
         self.label.setText(_translate("Form", "습득물 정보 목록", None))
         item = self.tableWidget.verticalHeaderItem(0)
         item.setText(_translate("Form", "물품명", None))
@@ -136,4 +140,5 @@ class Ui_Form(object):
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setSortingEnabled(__sortingEnabled)
+        self.pushButton_6.setText(_translate("Form", "미리 보기", None))
 

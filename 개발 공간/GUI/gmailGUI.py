@@ -4,6 +4,12 @@ from PyQt4 import QtGui, QtCore
 
 import transmit_email_menu_ui
 
+from http.client import HTTPConnection
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+LDB = []
+FDB = []
+
 host = "smtp.gmail.com" # Gmail SMTP 서버 주소.
 port = "587"
 
@@ -177,3 +183,36 @@ def MakeHtmlDocDetail(foundsDetailBasket, lostsDetailBasket, about):
         
     print("첨부 완료")
     return newdoc.toxml()
+
+
+class ServerHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        global FDB
+        global LDB
+        html = MakeHtmlDocDetail(FDB, LDB, "정보 목록") # keyword에 해당하는 책을 검색해서 HTML로 전환합니다.
+        ##헤더 부분을 작성.
+        print(html)
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(html.encode('euc-kr')) #  본분( body ) 부분을 출력 합니다.
+
+def RunPreviewServer(mFDB, mLDB):
+    global FDB
+    global LDB
+    
+    for item in mFDB:
+        FDB.append(item)
+    for item in mLDB:
+        LDB.append(item)
+        
+    import webbrowser
+    server = HTTPServer( ('localhost',8080), ServerHandler)
+    print("미리 보기")
+    webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open("http://localhost:8080/?")
+    server.handle_request()
+    server.socket.close()
+    FDB.clear()
+    LDB.clear()
+        
+        

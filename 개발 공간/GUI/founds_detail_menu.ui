@@ -185,14 +185,14 @@
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>650</x>
+     <x>640</x>
      <y>480</y>
-     <width>241</width>
+     <width>121</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>정보 목록 이메일 전송</string>
+    <string>목록 전송</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_5">
@@ -206,6 +206,19 @@
    </property>
    <property name="text">
     <string>이미지 보기</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>480</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>미리 보기</string>
    </property>
   </widget>
  </widget>
@@ -266,7 +279,7 @@
    <slot>transmit_email_list()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>835</x>
+     <x>760</x>
      <y>507</y>
     </hint>
     <hint type="destinationlabel">
@@ -323,6 +336,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>865</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>919</x>
+     <y>452</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>click_close()</slot>
@@ -332,5 +361,6 @@
   <slot>click_founds_list(QModelIndex)</slot>
   <slot>print_image()</slot>
   <slot>click_losts_list(QModelIndex)</slot>
+  <slot>preview()</slot>
  </slots>
 </ui>

@@ -5,7 +5,7 @@ from urllib.request import urlopen, quote
 from os import system
 
 
-from gmailGUI import MyTransmitEmailMenuForm
+from gmailGUI import MyTransmitEmailMenuForm, RunPreviewServer
 from PyQt4 import QtGui, QtCore
 
 import main_menu_ui
@@ -222,6 +222,12 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         for losts_list in lostsDetailBasket:
             self.ui.listWidget_2.addItem(losts_list[0][0]+losts_list[0][1])     
         return
+        
+    def preview(self):
+        global foundsDetailBasket
+        global lostsDetailBasket
+        RunPreviewServer(foundsDetailBasket, lostsDetailBasket)
+        return
 
 class MyLostsDetailMenuForm(QtGui.QMainWindow):
     goodsDetailList = []
@@ -339,6 +345,12 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
         self.ui.listWidget_2.clear()  
         for losts_list in lostsDetailBasket:
             self.ui.listWidget_2.addItem(losts_list[0][0]+losts_list[0][1])     
+        return
+    
+    def preview(self):
+        global foundsDetailBasket
+        global lostsDetailBasket
+        RunPreviewServer(foundsDetailBasket, lostsDetailBasket)
         return
 
 class MyFoundsAddrSearchForm(QtGui.QMainWindow):

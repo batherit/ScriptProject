@@ -83,12 +83,12 @@
     <rect>
      <x>650</x>
      <y>480</y>
-     <width>241</width>
+     <width>111</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>정보 목록 이메일 전송</string>
+    <string>목록 전송</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -216,6 +216,19 @@
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>480</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>미리 보기</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
@@ -290,7 +303,7 @@
    <slot>transmit_email_list()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>837</x>
+     <x>760</x>
      <y>500</y>
     </hint>
     <hint type="destinationlabel">
@@ -331,6 +344,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>842</x>
+     <y>487</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>919</x>
+     <y>437</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>click_close()</slot>
@@ -340,5 +369,6 @@
   <slot>transmit_email_list()</slot>
   <slot>click_founds_list(QModelIndex)</slot>
   <slot>click_losts_list(QModelIndex)</slot>
+  <slot>preview()</slot>
  </slots>
 </ui>
