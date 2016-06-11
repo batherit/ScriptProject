@@ -26,7 +26,7 @@ from sortGUI import sort_list
 
 import webbrowser
 
-kindOfGoodsXMLDoc = None
+#kindOfGoodsXMLDoc = None
 
 lostsDoc = None
 foundsDoc = None
@@ -44,12 +44,14 @@ chrome_path = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 class MyMainForm(QtGui.QMainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
+        """
         global kindOfGoodsXMLDoc
+        
         if checkKOGDoc(): 
             kindOfGoodsXMLDoc .unlink()
             kindOfGoodsXMLDoc = None
-            
-        LoadXMLFromWeb()
+        """
+        #LoadXMLFromWeb()
 
         self.ui = main_menu_ui.Ui_Form()
         self.ui.setupUi(self)
@@ -395,12 +397,12 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
     pageNum = 1
     addr = None
     founds = None
-    
+    nItem = 0 
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = founds_addr_search_menu_ui.Ui_Form()
         self.ui.setupUi(self)
-        for i in range(10):
+        for i in range(20):
             for j in range(4):
                 self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
         
@@ -413,7 +415,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         self.addr = self.ui.lineEdit.text()
         self.founds = self.ui.lineEdit_2.text()     
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?numOfRows=20&"
         optionURL = "PRDT_NM="+quote(self.founds)+"&ADDR="+quote(self.addr)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -433,7 +435,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -442,6 +444,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -457,11 +460,13 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         global informOfFoundsXMLDoc
         global item_list
         
-        item_list.clear()
+        if self.nItem < 20 : return
         if not checkIOFDoc(): return
+            
+        item_list.clear()
         self.pageNum += 1;
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?numOfRows=20&"
         optionURL = "PRDT_NM="+quote(self.founds)+"&ADDR="+quote(self.addr)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -481,7 +486,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -490,6 +495,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -498,12 +504,12 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         global informOfFoundsXMLDoc
         global item_list        
         
-        item_list.clear()
         if not checkIOFDoc(): return
         if self.pageNum == 1 : return        
         self.pageNum -= 1;
+        item_list.clear()
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?numOfRows=20&"
         optionURL = "PRDT_NM="+quote(self.founds)+"&ADDR="+quote(self.addr)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -523,7 +529,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -532,6 +538,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -598,20 +605,23 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
     startDay = None
     endDay = None
     items_list = None
+    nItem = 0
     
     def __init__(self, parent=None):
-        global kindOfGoodsXMLDoc
+        #global kindOfGoodsXMLDoc
         QtGui.QWidget.__init__(self, parent)
+        
         self.ui = founds_kind_search_menu_ui.Ui_Form()
         self.ui.setupUi(self)
-        
+        """
         self.response = kindOfGoodsXMLDoc.childNodes
         self.rsp_child = self.response[0].childNodes
         self.body_list = self.rsp_child[1].childNodes
         self.items = self.body_list[0]
         self.items_list = self.items.childNodes
+        """
         
-        for i in range(10):
+        for i in range(20):
             for j in range(4):
                 self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
         
@@ -620,12 +630,20 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         global informOfFoundsXMLDoc
         global item_list
         
+        goods_kind_dic =  \
+        { 
+            0 : "PRA000", 1 : "PRB000", 2 : "PRC000", 3 : "PRD000", 4 : "PRE000", 
+            5 : "PRF000", 6 : "PRG000", 7 : "PRH000", 8 : "PRI000", 9 : "PRJ000",
+            10: "PRK000", 11: "PRL000", 12: "PRM000", 13: "PRN000", 14: "PRO000",
+            15: "PRP000", 16: "PRQ000", 17: "PRR000", 18: "PRZ000"
+        }
+        
         item_list.clear()
-        self.kind = (self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
+        self.kind = goods_kind_dic[self.ui.comboBox.currentIndex()]#(self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
         self.endDay = self.ui.lineEdit_2.text()
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -645,7 +663,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -654,6 +672,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -669,11 +688,13 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         global informOfFoundsXMLDoc
         global item_list
         
-        item_list.clear()
+        if self.nItem < 20 : return
         if not checkIOFDoc(): return
+            
         self.pageNum += 1;
+        item_list.clear()
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -693,7 +714,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -702,21 +723,23 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
         return
+        
     def click_prev(self):
         global informOfFoundsXMLDoc
         global item_list
         
+        if not checkIOFDoc(): return
+        if self.pageNum == 1 : return  
+        
+        self.pageNum -= 1;
         item_list.clear()
         
-        if not checkIOFDoc(): return
-        if self.pageNum == 1 : return        
-        self.pageNum -= 1;
-        
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -736,7 +759,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -745,6 +768,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -813,12 +837,13 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
     pageNum = 1
     location = None
     losts = None
+    nItem = 0
     
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = losts_location_search_menu_ui.Ui_Form()
         self.ui.setupUi(self)
-        for i in range(10):
+        for i in range(20):
             for j in range(4):
                 self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
         
@@ -831,7 +856,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         self.location = self.ui.lineEdit.text()
         self.losts = self.ui.lineEdit_2.text()     
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?numOfRows=20&"
         optionURL = "LST_PLACE="+quote(self.location)+"&LST_PRDT_NM="+quote(self.losts)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -851,7 +876,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -860,6 +885,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -875,11 +901,13 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         global informOfLostsXMLDoc
         global item_list
         
-        item_list.clear()
+        if self.nItem < 20 : return
         if not checkIOLDoc(): return
+            
         self.pageNum += 1;
+        item_list.clear()
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?numOfRows=20&"
         optionURL = "LST_PLACE="+quote(self.location)+"&LST_PRDT_NM="+quote(self.losts)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -899,7 +927,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -908,20 +936,21 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
-                  
         return
     def click_prev(self):
         global informOfLostsXMLDoc
         global item_list
-        
-        item_list.clear()
+           
         if not checkIOLDoc(): return
-        if self.pageNum == 1 : return        
-        self.pageNum -= 1;
+        if self.pageNum == 1 : return  
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?"
+        self.pageNum -= 1;
+        item_list.clear()
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?numOfRows=20&"
         optionURL = "LST_PLACE="+quote(self.location)+"&LST_PRDT_NM="+quote(self.losts)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -941,7 +970,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -950,6 +979,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -1015,20 +1045,23 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
     startDay = None
     endDay = None
     items_list = None
+    nItem = 0
     
     def __init__(self, parent=None):
-        global kindOfGoodsXMLDoc
+        #global kindOfGoodsXMLDoc
         QtGui.QWidget.__init__(self, parent)
+        
         self.ui = losts_kind_search_menu_ui.Ui_Form()
         self.ui.setupUi(self)
-        
+        """
         self.response = kindOfGoodsXMLDoc.childNodes
         self.rsp_child = self.response[0].childNodes
         self.body_list = self.rsp_child[1].childNodes
         self.items = self.body_list[0]
         self.items_list = self.items.childNodes
+        """
         
-        for i in range(10):
+        for i in range(20):
             for j in range(4):
                 self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
         
@@ -1037,12 +1070,20 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         global informOfLostsXMLDoc
         global item_list
         
+        goods_kind_dic =  \
+        { 
+            0 : "PRA000", 1 : "PRB000", 2 : "PRC000", 3 : "PRD000", 4 : "PRE000", 
+            5 : "PRF000", 6 : "PRG000", 7 : "PRH000", 8 : "PRI000", 9 : "PRJ000",
+            10: "PRK000", 11: "PRL000", 12: "PRM000", 13: "PRN000", 14: "PRO000",
+            15: "PRP000", 16: "PRQ000", 17: "PRR000", 18: "PRZ000"
+        }
+        
         item_list.clear()
-        self.kind = (self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
+        self.kind = goods_kind_dic[self.ui.comboBox.currentIndex()]#(self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
         self.endDay = self.ui.lineEdit_2.text()
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -1063,7 +1104,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                     #print(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     
@@ -1073,6 +1114,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -1088,11 +1130,13 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         global informOfLostsXMLDoc
         global item_list
         
-        item_list.clear()
+        if self.nItem < 20 : return
         if not checkIOLDoc(): return
+            
         self.pageNum += 1;
+        item_list.clear()
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?"
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -1112,7 +1156,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -1121,20 +1165,23 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
         return
+        
     def click_prev(self):
         global informOfLostsXMLDoc
         global item_list
         
-        item_list.clear()
         if not checkIOLDoc(): return
-        if self.pageNum == 1 : return        
-        self.pageNum -= 1;
+        if self.pageNum == 1 : return
         
-        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?"
+        self.pageNum -= 1;
+        item_list.clear()
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
         
@@ -1154,7 +1201,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
                     #self.ui.tableWidget.clear()
-                    for i in range(10):
+                    for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
@@ -1163,6 +1210,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
                         self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
@@ -1228,6 +1276,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         return
 
 #### xml function implementation
+"""
 def LoadXMLFromWeb():
     global kindOfGoodsXMLDoc 
 
@@ -1240,6 +1289,7 @@ def LoadXMLFromWeb():
     else:
         try:
             kindOfGoodsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            print(kindOfGoodsXMLDoc.toxml())
         except Exception:
             print ("※읽어오기가 실패하였습니다.※")
         else:
@@ -1247,13 +1297,15 @@ def LoadXMLFromWeb():
             return True
     return False
 
+
 def checkKOGDoc():
     global kindOfGoodsXMLDoc 
     if kindOfGoodsXMLDoc  == None:
         print("※읽어올 xml 파일이 존재하지 않습니다.※")
         return False
     return True
-
+ """
+ 
 def checkIOFDoc():
     global informOfFoundsXMLDoc 
     if informOfFoundsXMLDoc  == None:
@@ -1269,10 +1321,10 @@ def checkIOLDoc():
     return True
     
 def LAFFree():
-    global kindOfGoodsXMLDoc 
+    #global kindOfGoodsXMLDoc 
     global informOfFoundsXMLDoc
     global informOfLostsXMLDoc
 
-    if checkKOGDoc(): kindOfGoodsXMLDoc .unlink()   # minidom 객체 해제합니다.
+    #if checkKOGDoc(): kindOfGoodsXMLDoc .unlink()   # minidom 객체 해제합니다.
     if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
     if checkIOLDoc(): informOfLostsXMLDoc.unlink()
