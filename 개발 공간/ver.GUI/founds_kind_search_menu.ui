@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>330</x>
      <y>500</y>
      <width>121</width>
      <height>31</height>
@@ -125,7 +125,7 @@
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>570</x>
      <y>500</y>
      <width>121</width>
      <height>31</height>
@@ -338,6 +338,19 @@
     <string>처음으로</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>500</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>정렬</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
@@ -437,6 +450,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_sort()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>505</x>
+     <y>523</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>507</x>
+     <y>542</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>founds_kind_search()</slot>
@@ -445,5 +474,6 @@
   <slot>click_next()</slot>
   <slot>founds_print_detail(int,int)</slot>
   <slot>return_to_main()</slot>
+  <slot>click_sort()</slot>
  </slots>
 </ui>

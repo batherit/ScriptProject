@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>360</height>
+    <height>432</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>분실물 센터 서비스</string>
+   <string>분실물 찾아요 서비스 입니다. ^^</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>100</y>
      <width>231</width>
      <height>321</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>20</y>
+     <y>100</y>
      <width>231</width>
      <height>321</height>
     </rect>
@@ -38,6 +38,32 @@
    <property name="text">
     <string>분실물</string>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>511</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>읽어보세요^^</string>
+   </property>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>20</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>유실물 처리 절차</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
@@ -50,7 +76,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>158</x>
-     <y>89</y>
+     <y>169</y>
     </hint>
     <hint type="destinationlabel">
      <x>266</x>
@@ -74,9 +100,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_law()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>227</x>
+     <y>56</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>270</x>
+     <y>107</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>menu_founds()</slot>
   <slot>menu_losts()</slot>
+  <slot>click_law()</slot>
  </slots>
 </ui>

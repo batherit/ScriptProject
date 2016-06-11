@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>종류 기반 분실물 검색</string>
+   <string>주소 기반 습득물 검색</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -23,14 +23,24 @@
     </rect>
    </property>
    <property name="title">
-    <string>분실물에 관한 정보 입력</string>
+    <string>습득물에 관한 정보 입력</string>
    </property>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="lineEdit_2">
     <property name="geometry">
      <rect>
       <x>120</x>
       <y>60</y>
-      <width>121</width>
+      <width>281</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>30</y>
+      <width>281</width>
       <height>21</height>
      </rect>
     </property>
@@ -45,7 +55,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>종류 선택</string>
+     <string>주소 입력</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -58,7 +68,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>기간 입력</string>
+     <string>품명 입력</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -74,139 +84,24 @@
      <string>검색</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>30</y>
-      <width>281</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>가방</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>도서용품</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>사무용품</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>산업용품</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>스포츠용품</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>자동차</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>전자기기</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>지갑</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>컴퓨터</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>휴대폰</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>의류</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>현금</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>유가증권</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>증명서</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>귀금속</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>카드</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>쇼핑백</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>악기</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>기타물품</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>60</y>
-      <width>121</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>60</y>
-      <width>31</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string> ~</string>
-    </property>
-   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>500</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&gt;&gt;</string>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>330</x>
      <y>500</y>
      <width>121</width>
      <height>31</height>
@@ -298,12 +193,12 @@
    </column>
    <column>
     <property name="text">
-     <string>분실 일자</string>
+     <string>습득 일자</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>분실 위치</string>
+     <string>위치</string>
     </property>
    </column>
    <column>
@@ -325,17 +220,17 @@
     <string>처음으로</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>470</x>
      <y>500</y>
-     <width>121</width>
+     <width>81</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>&gt;&gt;</string>
+    <string>정렬</string>
    </property>
   </widget>
  </widget>
@@ -345,63 +240,15 @@
    <sender>pushButton</sender>
    <signal>clicked()</signal>
    <receiver>Form</receiver>
-   <slot>losts_kind_search()</slot>
+   <slot>founds_addr_search()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>743</x>
-     <y>85</y>
+     <x>479</x>
+     <y>78</y>
     </hint>
     <hint type="destinationlabel">
-     <x>896</x>
-     <y>82</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tableWidget</sender>
-   <signal>cellClicked(int,int)</signal>
-   <receiver>Form</receiver>
-   <slot>losts_print_detail(int,int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>175</x>
-     <y>194</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>136</x>
-     <y>99</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_5</sender>
-   <signal>clicked()</signal>
-   <receiver>Form</receiver>
-   <slot>click_back()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>110</x>
-     <y>526</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>184</x>
-     <y>527</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_4</sender>
-   <signal>clicked()</signal>
-   <receiver>Form</receiver>
-   <slot>click_prev()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>414</x>
-     <y>520</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>316</x>
-     <y>517</y>
+     <x>464</x>
+     <y>12</y>
     </hint>
    </hints>
   </connection>
@@ -412,12 +259,60 @@
    <slot>click_next()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>612</x>
-     <y>528</y>
+     <x>570</x>
+     <y>500</y>
     </hint>
     <hint type="destinationlabel">
-     <x>704</x>
-     <y>523</y>
+     <x>464</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_prev()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>500</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>66</x>
+     <y>364</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_back()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>38</x>
+     <y>376</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>30</x>
+     <y>384</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableWidget</sender>
+   <signal>cellClicked(int,int)</signal>
+   <receiver>Form</receiver>
+   <slot>founds_print_detail(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>73</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>72</x>
+     <y>68</y>
     </hint>
    </hints>
   </connection>
@@ -428,22 +323,40 @@
    <slot>return_to_main()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>902</x>
+     <x>910</x>
      <y>517</y>
     </hint>
     <hint type="destinationlabel">
-     <x>869</x>
-     <y>516</y>
+     <x>841</x>
+     <y>524</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_sort()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>510</x>
+     <y>526</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>511</x>
+     <y>542</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>losts_kind_search()</slot>
-  <slot>losts_print_detail(int,int)</slot>
-  <slot>click_back()</slot>
-  <slot>click_prev()</slot>
+  <slot>founds_addr_search()</slot>
   <slot>click_next()</slot>
+  <slot>click_prev()</slot>
+  <slot>founds_print_detail(int,int)</slot>
+  <slot>click_quit()</slot>
+  <slot>click_back()</slot>
   <slot>return_to_main()</slot>
+  <slot>click_sort()</slot>
  </slots>
 </ui>

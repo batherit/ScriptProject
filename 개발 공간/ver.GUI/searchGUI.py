@@ -10,6 +10,7 @@ from PyQt4 import QtGui, QtCore
 
 import main_menu_ui
 
+import law_menu_ui
 import founds_menu_ui
 import losts_menu_ui
 
@@ -20,6 +21,8 @@ import founds_detail_menu_ui
 import losts_location_search_menu_ui
 import losts_kind_search_menu_ui
 import losts_detail_menu_ui
+
+from sortGUI import sort_list
 
 import webbrowser
 
@@ -33,6 +36,7 @@ informOfLostsXMLDoc = None
 
 foundsDetailBasket = []
 lostsDetailBasket = []
+item_list = []
 
 serviceKey = "&ServiceKey=jbfaPFGDu0gyILL0E6rWgZe1Fq1Y60tCFkC3ErTPctXTPWgs8AqAxetBbec7tYOJIRWHGZ9N77NLdVuWBR6nlg%3D%3D"
 chrome_path = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
@@ -59,6 +63,22 @@ class MyMainForm(QtGui.QMainWindow):
     def menu_losts(self):
         self.lostsMenu = MyLostsMenuForm()
         self.lostsMenu.show()
+        self.close()
+        return
+        
+    def click_law(self):
+        self.lawMenu = MyLawMenuForm()
+        self.lawMenu.show()
+        return
+        
+class MyLawMenuForm(QtGui.QMainWindow):
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        
+        self.ui = law_menu_ui.Ui_Form()
+        self.ui.setupUi(self)
+        
+    def click_close(self):
         self.close()
         return
 
@@ -107,6 +127,8 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         global informOfFoundsXMLDoc
         global foundsDetailBasket
         global lostDetailBasket
+        global item_list
+        
         #global row, col
         QtGui.QWidget.__init__(self, parent)
 
@@ -114,7 +136,6 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         self.ui.setupUi(self)
         
         self.ui.listWidget.clear()
-        print(foundsDetailBasket)
         for founds_list in foundsDetailBasket:
             self.ui.listWidget.addItem(founds_list[0][0]+founds_list[0][1])
         self.ui.listWidget_2.clear()  
@@ -140,7 +161,8 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
             items = tree.getiterator("item")  
             for i, item in enumerate(items):
                 if i == int(row):
-                    detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item.find("atcId").text +"&FD_SN="+item.find("fdSn").text+serviceKey                       
+                    #detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item.find("atcId").text +"&FD_SN="+item.find("fdSn").text+serviceKey 
+                    detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundDetailInfo?"+"ATC_ID="+item_list[i][4] +"&FD_SN="+item_list[i][5]+serviceKey                      
             try:
                 xmlFD = urlopen(detailURL)
             except IOError:
@@ -155,6 +177,7 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
                     print ("세부 정보를 출력합니다.")
                     tree = ElementTree.fromstring(str(self.detailOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")    
+                    if bool(self.goodsDetailList) == True : self.goodsDetailList.clear()
                     for item in items:
                         for i in range(9):
                             self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find(founds_detail_dic_idx[i]).text))
@@ -228,6 +251,12 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         global lostsDetailBasket
         RunPreviewServer(foundsDetailBasket, lostsDetailBasket)
         return
+        
+    def closeEvent(self, bar):   
+        if self.detailOfFoundsXMLDoc != None : self.detailOfFoundsXMLDoc.unlink()
+        self.goodsDetailList.clear()
+        self.close()
+        return
 
 class MyLostsDetailMenuForm(QtGui.QMainWindow):
     goodsDetailList = []
@@ -236,6 +265,7 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
         global informOfLostsXMLDoc
         global founds_DetailBasket
         global losts_DetailBasket
+        global item_list
         #global row, col
         QtGui.QWidget.__init__(self, parent)
 
@@ -264,7 +294,8 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
             items = tree.getiterator("item")  
             for i, item in enumerate(items):
                 if i == int(row):
-                    detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsDetailInfo?"+"ATC_ID="+item.find("atcId").text + serviceKey                      
+                    #detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsDetailInfo?"+"ATC_ID="+item.find("atcId").text + serviceKey
+                    detailURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsDetailInfo?"+"ATC_ID="+item_list[i][4] + serviceKey                       
             try:
                 xmlFD = urlopen(detailURL)
             except IOError:
@@ -278,7 +309,8 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
                     #goodsDetailList = []
                     print ("세부 정보를 출력합니다.")
                     tree = ElementTree.fromstring(str(self.detailOfLostsXMLDoc.toxml()))
-                    items = tree.getiterator("item")    
+                    items = tree.getiterator("item")
+                    if bool(self.goodsDetailList) == True : self.goodsDetailList.clear()
                     for item in items:
                         for i in range(10):
                             self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find(losts_detail_dic_idx[i]).text))
@@ -352,6 +384,12 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
         global lostsDetailBasket
         RunPreviewServer(foundsDetailBasket, lostsDetailBasket)
         return
+    
+    def closeEvent(self, bar):   
+        if self.detailOfLostsXMLDoc != None : self.detailOfLostsXMLDoc.unlink()
+        self.goodsDetailList.clear()
+        self.close()
+        return
 
 class MyFoundsAddrSearchForm(QtGui.QMainWindow):
     pageNum = 1
@@ -369,7 +407,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
     def founds_addr_search(self):
         global serviceKey
         global informOfFoundsXMLDoc
+        global item_list
         
+        item_list.clear()
         self.addr = self.ui.lineEdit.text()
         self.founds = self.ui.lineEdit_2.text()     
         
@@ -397,6 +437,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("addr").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
@@ -414,7 +455,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         
     def click_next(self):
         global informOfFoundsXMLDoc
+        global item_list
         
+        item_list.clear()
         if not checkIOFDoc(): return
         self.pageNum += 1;
         
@@ -442,6 +485,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("addr").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
@@ -452,7 +496,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         return
     def click_prev(self):
         global informOfFoundsXMLDoc
+        global item_list        
         
+        item_list.clear()
         if not checkIOFDoc(): return
         if self.pageNum == 1 : return        
         self.pageNum -= 1;
@@ -481,6 +527,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("addr").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
@@ -489,8 +536,21 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
         return
+    def click_sort(self):
+        global item_list
+        sort_list(item_list)
+        for i, item in enumerate(item_list):
+            self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item[0]))
+            self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item[1]))
+            self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
+            self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
+        return
+        
     def click_back(self):
         global informOfFoundsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.founds = None
         self.addr = None
@@ -504,6 +564,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         
     def return_to_main(self):
         global informOfFoundsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.founds = None
         self.addr = None
@@ -512,6 +575,20 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
+        self.close()
+        return
+        
+    def closeEvent(self, bar):   
+        global informOfFoundsXMLDoc
+        global item_list
+        
+        item_list.clear()
+        
+        self.founds = None
+        self.addr = None
+        self.pageNum = 1
+        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
+    
         self.close()
         return
         
@@ -541,7 +618,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
     def founds_kind_search(self):
         global serviceKey
         global informOfFoundsXMLDoc
+        global item_list
         
+        item_list.clear()
         self.kind = (self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
         self.endDay = self.ui.lineEdit_2.text()
@@ -570,6 +649,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("depPlace").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
@@ -587,7 +667,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         
     def click_next(self):
         global informOfFoundsXMLDoc
+        global item_list
         
+        item_list.clear()
         if not checkIOFDoc(): return
         self.pageNum += 1;
         
@@ -615,6 +697,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("depPlace").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
@@ -625,6 +708,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         return
     def click_prev(self):
         global informOfFoundsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         if not checkIOFDoc(): return
         if self.pageNum == 1 : return        
@@ -654,6 +740,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("depPlace").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
@@ -662,8 +749,22 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
         return
+        
+    def click_sort(self):
+        global item_list
+        sort_list(item_list)
+        for i, item in enumerate(item_list):
+            self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item[0]))
+            self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item[1]))
+            self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
+            self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
+        return
+        
     def click_back(self):
         global informOfFoundsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.kind = None
         self.startDay = None
@@ -678,6 +779,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
     
     def return_to_main(self):
         global informOfFoundsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.kind = None
         self.startDay = None
@@ -687,6 +791,21 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
+        self.close()
+        return
+        
+    def closeEvent(self, bar):   
+        global informOfFoundsXMLDoc
+        global item_list
+        
+        item_list.clear()
+        
+        self.kind = None
+        self.startDay = None
+        self.endDay = None
+        self.pageNum = 1
+        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
+        
         self.close()
         return
         
@@ -706,7 +825,9 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
     def losts_location_search(self):
         global serviceKey
         global informOfLostsXMLDoc
+        global item_list
         
+        item_list.clear()
         self.location = self.ui.lineEdit.text()
         self.losts = self.ui.lineEdit_2.text()     
         
@@ -734,6 +855,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
@@ -751,7 +873,9 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         
     def click_next(self):
         global informOfLostsXMLDoc
+        global item_list
         
+        item_list.clear()
         if not checkIOLDoc(): return
         self.pageNum += 1;
         
@@ -779,6 +903,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
@@ -789,7 +914,9 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         return
     def click_prev(self):
         global informOfLostsXMLDoc
+        global item_list
         
+        item_list.clear()
         if not checkIOLDoc(): return
         if self.pageNum == 1 : return        
         self.pageNum -= 1;
@@ -818,6 +945,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
@@ -826,8 +954,20 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
         return
+    def click_sort(self):
+        global item_list
+        sort_list(item_list)
+        for i, item in enumerate(item_list):
+            self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item[0]))
+            self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item[1]))
+            self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
+            self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
+        return
     def click_back(self):
         global informOfLostsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.losts = None
         self.location = None
@@ -841,6 +981,9 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         
     def return_to_main(self):
         global informOfLostsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.losts = None
         self.location = None
@@ -849,6 +992,20 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
+        self.close()
+        return
+        
+    def closeEvent(self, bar):   
+        global informOfLostsXMLDoc
+        global item_list
+        
+        item_list.clear()
+        
+        self.losts = None
+        self.location = None
+        self.pageNum = 1
+        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
+        
         self.close()
         return
         
@@ -878,7 +1035,9 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
     def losts_kind_search(self):
         global serviceKey
         global informOfLostsXMLDoc
+        global item_list
         
+        item_list.clear()
         self.kind = (self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
         self.endDay = self.ui.lineEdit_2.text()
@@ -909,6 +1068,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     
                     for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
@@ -926,7 +1086,9 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         
     def click_next(self):
         global informOfLostsXMLDoc
+        global item_list
         
+        item_list.clear()
         if not checkIOLDoc(): return
         self.pageNum += 1;
         
@@ -954,6 +1116,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
@@ -964,7 +1127,9 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         return
     def click_prev(self):
         global informOfLostsXMLDoc
+        global item_list
         
+        item_list.clear()
         if not checkIOLDoc(): return
         if self.pageNum == 1 : return        
         self.pageNum -= 1;
@@ -993,6 +1158,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
                     for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
                         self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
                         self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
                         self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
@@ -1001,8 +1167,22 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
         return
+        
+    def click_sort(self):
+        global item_list
+        sort_list(item_list)
+        for i, item in enumerate(item_list):
+            self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item[0]))
+            self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item[1]))
+            self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
+            self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
+        return
+        
     def click_back(self):
         global informOfLostsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.kind = None
         self.startDay = None
@@ -1017,6 +1197,9 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
     
     def return_to_main(self):
         global informOfLostsXMLDoc
+        global item_list
+        
+        item_list.clear()
         
         self.kind = None
         self.startDay = None
@@ -1026,6 +1209,21 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
+        self.close()
+        return
+        
+    def closeEvent(self, bar):   
+        global informOfLostsXMLDoc
+        global item_list
+        
+        item_list.clear()
+        
+        self.kind = None
+        self.startDay = None
+        self.endDay = None
+        self.pageNum = 1
+        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
+        
         self.close()
         return
 
