@@ -206,7 +206,7 @@
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>350</x>
      <y>500</y>
      <width>121</width>
      <height>31</height>
@@ -378,7 +378,7 @@
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
-     <x>570</x>
+     <x>550</x>
      <y>500</y>
      <width>121</width>
      <height>31</height>
@@ -391,14 +391,37 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>470</x>
+     <x>190</x>
      <y>500</y>
-     <width>81</width>
+     <width>91</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>정렬</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>800</x>
+     <y>500</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>P</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_3">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>500</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
    </property>
   </widget>
  </widget>
@@ -516,6 +539,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_7</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>click_short_cut()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>818</x>
+     <y>516</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>847</x>
+     <y>508</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>losts_kind_search()</slot>
@@ -525,5 +564,6 @@
   <slot>click_next()</slot>
   <slot>return_to_main()</slot>
   <slot>click_sort()</slot>
+  <slot>click_short_cut()</slot>
  </slots>
 </ui>

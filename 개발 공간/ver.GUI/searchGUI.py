@@ -143,6 +143,7 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         self.ui.listWidget_2.clear()  
         for losts_list in lostsDetailBasket:
             self.ui.listWidget_2.addItem(losts_list[0][0]+losts_list[0][1])
+            
         
         founds_detail_dic_idx = \
         { 
@@ -414,7 +415,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         item_list.clear()
         self.addr = self.ui.lineEdit.text()
         self.founds = self.ui.lineEdit_2.text()     
-        
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?numOfRows=20&"
         optionURL = "PRDT_NM="+quote(self.founds)+"&ADDR="+quote(self.addr)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
@@ -465,7 +466,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
             
         item_list.clear()
         self.pageNum += 1;
-        
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?numOfRows=20&"
         optionURL = "PRDT_NM="+quote(self.founds)+"&ADDR="+quote(self.addr)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
@@ -500,6 +501,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
                   
         return
+        
     def click_prev(self):
         global informOfFoundsXMLDoc
         global item_list        
@@ -507,6 +509,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         if not checkIOFDoc(): return
         if self.pageNum == 1 : return        
         self.pageNum -= 1;
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         item_list.clear()
         
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?numOfRows=20&"
@@ -541,8 +544,8 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                     self.nItem = len(item_list)
                 except Exception:
                     print ("※트리 파싱에 에러가 발생하였습니다.※")
-                  
         return
+        
     def click_sort(self):
         global item_list
         sort_list(item_list)
@@ -551,6 +554,54 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
             self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item[1]))
             self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
             self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
+        return
+        
+    def click_short_cut(self):
+        global informOfFoundsXMLDoc
+        global item_list    
+        
+        if not checkIOFDoc(): return
+        pageNum = str(self.ui.lineEdit_3.text()).replace(' ','')     
+        if ''==  pageNum or int(pageNum) < 1 : 
+            self.ui.lineEdit_3.setText(str(self.pageNum))
+            return
+            
+        self.pageNum = int(pageNum)
+        self.ui.lineEdit_3.setText(str(self.pageNum))
+        item_list.clear()
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToLc?numOfRows=20&"
+        optionURL = "PRDT_NM="+quote(self.founds)+"&ADDR="+quote(self.addr)+"&pageNo="+str(self.pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        
+        print(totalURL)
+        
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                try:
+                    tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
+                    items = tree.getiterator("item")
+                    #self.ui.tableWidget.clear()
+                    for i in range(20):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
+                    for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("addr").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
+                        self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
+                        self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("addr").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
+                except Exception:
+                    print ("※트리 파싱에 에러가 발생하였습니다.※")
         return
         
     def click_back(self):
@@ -642,7 +693,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         self.kind = goods_kind_dic[self.ui.comboBox.currentIndex()]#(self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
         self.endDay = self.ui.lineEdit_2.text()
-        
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
@@ -692,6 +743,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         if not checkIOFDoc(): return
             
         self.pageNum += 1;
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         item_list.clear()
         
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?numOfRows=20&"
@@ -737,6 +789,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         if self.pageNum == 1 : return  
         
         self.pageNum -= 1;
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         item_list.clear()
         
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?numOfRows=20&"
@@ -782,6 +835,54 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
             self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item[1]))
             self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
             self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
+        return
+        
+    def click_short_cut(self):
+        global informOfFoundsXMLDoc
+        global item_list    
+        
+        if not checkIOFDoc(): return
+        pageNum = str(self.ui.lineEdit_3.text()).replace(' ','')     
+        if ''==  pageNum or int(pageNum) < 1 : 
+            self.ui.lineEdit_3.setText(str(self.pageNum))
+            return
+            
+        self.pageNum = int(pageNum)
+        self.ui.lineEdit_3.setText(str(self.pageNum))
+        item_list.clear()
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LosfundInfoInqireService/getLosfundInfoAccToClAreaPd?numOfRows=20&"
+        optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        
+        print(totalURL)
+        
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfFoundsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                try:
+                    tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
+                    items = tree.getiterator("item")
+                    #self.ui.tableWidget.clear()
+                    for i in range(20):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
+                    for i, item in enumerate(items):
+                        item_list.append((item.find("fdPrdtNm").text, item.find("fdYmd").text, item.find("depPlace").text, item.find("fdSbjt").text, item.find("atcId").text, item.find("fdSn").text))
+                        self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("fdPrdtNm").text))
+                        self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("fdYmd").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("depPlace").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("fdSbjt").text))
+                    self.nItem = len(item_list)
+                except Exception:
+                    print ("※트리 파싱에 에러가 발생하였습니다.※")
         return
         
     def click_back(self):
@@ -855,7 +956,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         item_list.clear()
         self.location = self.ui.lineEdit.text()
         self.losts = self.ui.lineEdit_2.text()     
-        
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?numOfRows=20&"
         optionURL = "LST_PLACE="+quote(self.location)+"&LST_PRDT_NM="+quote(self.losts)+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
@@ -905,6 +1006,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         if not checkIOLDoc(): return
             
         self.pageNum += 1;
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         item_list.clear()
         
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?numOfRows=20&"
@@ -948,6 +1050,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         if self.pageNum == 1 : return  
         
         self.pageNum -= 1;
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         item_list.clear()
         
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?numOfRows=20&"
@@ -993,6 +1096,56 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
             self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
             self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
         return
+        
+    def click_short_cut(self):
+        global informOfLostsXMLDoc
+        global item_list    
+        
+        if not checkIOLDoc(): return
+        pageNum = str(self.ui.lineEdit_3.text()).replace(' ','')     
+        if ''==  pageNum or int(pageNum) < 1 : 
+            self.ui.lineEdit_3.setText(str(self.pageNum))
+            return
+            
+        self.pageNum = int(pageNum)
+        self.ui.lineEdit_3.setText(str(self.pageNum))
+        item_list.clear()
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccTpNmCstdyPlace?numOfRows=20&"
+        optionURL = "LST_PLACE="+quote(self.location)+"&LST_PRDT_NM="+quote(self.losts)+"&pageNo="+str(self.pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        
+        print(totalURL)
+        
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfLostsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                try:
+                    tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
+                    items = tree.getiterator("item")
+                    #self.ui.tableWidget.clear()
+                    for i in range(20):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
+                    for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
+                        self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
+                        self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
+                except Exception:
+                    print ("※트리 파싱에 에러가 발생하였습니다.※")
+                  
+        return
+        
     def click_back(self):
         global informOfLostsXMLDoc
         global item_list
@@ -1082,7 +1235,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         self.kind = goods_kind_dic[self.ui.comboBox.currentIndex()]#(self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
         self.endDay = self.ui.lineEdit_2.text()
-        
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?numOfRows=20&"
         optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
         totalURL = basedURL+optionURL+serviceKey
@@ -1134,6 +1287,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         if not checkIOLDoc(): return
             
         self.pageNum += 1;
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         item_list.clear()
         
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?numOfRows=20&"
@@ -1179,6 +1333,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         if self.pageNum == 1 : return
         
         self.pageNum -= 1;
+        self.ui.lineEdit_3.setText(str(self.pageNum))
         item_list.clear()
         
         basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?numOfRows=20&"
@@ -1224,6 +1379,55 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
             self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item[1]))
             self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item[2]))
             self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item[3]))
+        return
+        
+    def click_short_cut(self):
+        global informOfLostsXMLDoc
+        global item_list    
+        
+        if not checkIOLDoc(): return
+        pageNum = str(self.ui.lineEdit_3.text()).replace(' ','')     
+        if ''==  pageNum or int(pageNum) < 1 : 
+            self.ui.lineEdit_3.setText(str(self.pageNum))
+            return
+            
+        self.pageNum = int(pageNum)
+        self.ui.lineEdit_3.setText(str(self.pageNum))
+        item_list.clear()
+        
+        basedURL = "http://openapi.lost112.go.kr/openapi/service/rest/LostGoodsInfoInqireService/getLostGoodsInfoAccToClAreaPd?numOfRows=20&"
+        optionURL = "PRDT_CL_CD_01="+self.kind+"&START_YMD="+self.startDay+"&END_YMD="+self.endDay+"&pageNo="+str(self.pageNum)
+        totalURL = basedURL+optionURL+serviceKey
+        
+        print(totalURL)
+        
+        try:
+            xmlFD = urlopen(totalURL)
+        except IOError:
+            print ("※URL 접근에 실패하였습니다.※")
+        else:
+            try:
+                informOfLostsXMLDoc = parse(xmlFD)   # XML 문서를 파싱합니다.
+            except Exception:
+                print ("※읽어오기가 실패하였습니다.※")
+            else:
+                try:
+                    tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
+                    items = tree.getiterator("item")
+                    #self.ui.tableWidget.clear()
+                    for i in range(20):
+                        for j in range(4):
+                            self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
+                    for i, item in enumerate(items):
+                        item_list.append((item.find("lstPrdtNm").text, item.find("lstYmd").text, item.find("lstPlace").text, item.find("lstSbjt").text, item.find("atcId").text))
+                        self.ui.tableWidget.setItem(i, 0, QtGui.QTableWidgetItem(item.find("lstPrdtNm").text))
+                        self.ui.tableWidget.setItem(i, 1, QtGui.QTableWidgetItem(item.find("lstYmd").text))
+                        self.ui.tableWidget.setItem(i, 2, QtGui.QTableWidgetItem(item.find("lstPlace").text))
+                        self.ui.tableWidget.setItem(i, 3, QtGui.QTableWidgetItem(item.find("lstSbjt").text))
+                    self.nItem = len(item_list)
+                except Exception:
+                    print ("※트리 파싱에 에러가 발생하였습니다.※")
+                  
         return
         
     def click_back(self):

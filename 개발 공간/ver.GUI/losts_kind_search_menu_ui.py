@@ -70,7 +70,7 @@ class Ui_Form(object):
         self.label_3.setGeometry(QtCore.QRect(250, 60, 31, 16))
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.pushButton_4 = QtGui.QPushButton(Form)
-        self.pushButton_4.setGeometry(QtCore.QRect(330, 500, 121, 31))
+        self.pushButton_4.setGeometry(QtCore.QRect(350, 500, 121, 31))
         self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
         self.pushButton_5 = QtGui.QPushButton(Form)
         self.pushButton_5.setGeometry(QtCore.QRect(30, 500, 93, 31))
@@ -133,11 +133,17 @@ class Ui_Form(object):
         self.pushButton_6.setGeometry(QtCore.QRect(900, 500, 93, 31))
         self.pushButton_6.setObjectName(_fromUtf8("pushButton_6"))
         self.pushButton_3 = QtGui.QPushButton(Form)
-        self.pushButton_3.setGeometry(QtCore.QRect(570, 500, 121, 31))
+        self.pushButton_3.setGeometry(QtCore.QRect(550, 500, 121, 31))
         self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
         self.pushButton_2 = QtGui.QPushButton(Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(470, 500, 81, 31))
+        self.pushButton_2.setGeometry(QtCore.QRect(190, 500, 91, 31))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.pushButton_7 = QtGui.QPushButton(Form)
+        self.pushButton_7.setGeometry(QtCore.QRect(800, 500, 31, 31))
+        self.pushButton_7.setObjectName(_fromUtf8("pushButton_7"))
+        self.lineEdit_3 = QtGui.QLineEdit(Form)
+        self.lineEdit_3.setGeometry(QtCore.QRect(740, 500, 61, 31))
+        self.lineEdit_3.setObjectName(_fromUtf8("lineEdit_3"))
 
         self.retranslateUi(Form)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.losts_kind_search)
@@ -147,6 +153,7 @@ class Ui_Form(object):
         QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.click_next)
         QtCore.QObject.connect(self.pushButton_6, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.return_to_main)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.click_sort)
+        QtCore.QObject.connect(self.pushButton_7, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.click_short_cut)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -228,4 +235,5 @@ class Ui_Form(object):
         self.pushButton_6.setText(_translate("Form", "처음으로", None))
         self.pushButton_3.setText(_translate("Form", ">>", None))
         self.pushButton_2.setText(_translate("Form", "정렬", None))
+        self.pushButton_7.setText(_translate("Form", "P", None))
 
