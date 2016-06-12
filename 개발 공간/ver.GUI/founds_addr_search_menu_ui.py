@@ -119,6 +119,13 @@ class Ui_Form(object):
         self.pushButton_7 = QtGui.QPushButton(Form)
         self.pushButton_7.setGeometry(QtCore.QRect(800, 500, 31, 31))
         self.pushButton_7.setObjectName(_fromUtf8("pushButton_7"))
+        self.groupBox_2 = QtGui.QGroupBox(Form)
+        self.groupBox_2.setGeometry(QtCore.QRect(30, 99, 191, 41))
+        self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
+        self.label_3 = QtGui.QLabel(self.groupBox_2)
+        self.label_3.setGeometry(QtCore.QRect(10, 14, 171, 21))
+        self.label_3.setText(_fromUtf8(""))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
 
         self.retranslateUi(Form)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.founds_addr_search)
@@ -191,4 +198,5 @@ class Ui_Form(object):
         self.pushButton_6.setText(_translate("Form", "처음으로", None))
         self.pushButton_2.setText(_translate("Form", "정렬", None))
         self.pushButton_7.setText(_translate("Form", "P", None))
+        self.groupBox_2.setTitle(_translate("Form", "검색물 수", None))
 

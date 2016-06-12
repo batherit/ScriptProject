@@ -191,7 +191,9 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         return
 
     def click_close(self):
-        if self.detailOfFoundsXMLDoc != None : self.detailOfFoundsXMLDoc.unlink()
+        if self.detailOfFoundsXMLDoc != None : 
+            self.detailOfFoundsXMLDoc.unlink()
+            self.detailOfFoundsXMLDoc = None
         self.goodsDetailList.clear()
         self.close()
         return
@@ -204,9 +206,7 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
     def print_image(self):
         global chrome_path
         tree = ElementTree.fromstring(str(self.detailOfFoundsXMLDoc.toxml()))
-        items = tree.getiterator("item")    
-        for item in items:
-            webbrowser.get(chrome_path).open(item.find("fdFilePathImg").text)
+        webbrowser.get(chrome_path).open(tree.find('body').find('item').find("fdFilePathImg").text)
         return
         
     def put_on_list(self):
@@ -256,7 +256,9 @@ class MyFoundsDetailMenuForm(QtGui.QMainWindow):
         return
         
     def closeEvent(self, bar):   
-        if self.detailOfFoundsXMLDoc != None : self.detailOfFoundsXMLDoc.unlink()
+        if self.detailOfFoundsXMLDoc != None : 
+            self.detailOfFoundsXMLDoc.unlink()
+            self.detailOfFoundsXMLDoc = None
         self.goodsDetailList.clear()
         self.close()
         return
@@ -324,7 +326,9 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
         return
 
     def click_close(self):
-        if self.detailOfLostsXMLDoc != None : self.detailOfLostsXMLDoc.unlink()
+        if self.detailOfLostsXMLDoc != None : 
+            self.detailOfLostsXMLDoc.unlink()
+            self.detailOfLostsXMLDoc = None
         self.goodsDetailList.clear()
         self.close()
         return
@@ -336,9 +340,7 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
     def print_image(self):
         global chrome_path
         tree = ElementTree.fromstring(str(self.detailOfLostsXMLDoc.toxml()))
-        items = tree.getiterator("item")    
-        for item in items:
-            webbrowser.get(chrome_path).open(item.find("lstFilePathImg").text)
+        webbrowser.get(chrome_path).open(tree.find('body').find('item').find("fdFilePathImg").text)
         return
         
     def put_on_list(self):
@@ -389,7 +391,9 @@ class MyLostsDetailMenuForm(QtGui.QMainWindow):
         return
     
     def closeEvent(self, bar):   
-        if self.detailOfLostsXMLDoc != None : self.detailOfLostsXMLDoc.unlink()
+        if self.detailOfLostsXMLDoc != None : 
+            self.detailOfLostsXMLDoc.unlink()
+            self.detailOfLostsXMLDoc = None
         self.goodsDetailList.clear()
         self.close()
         return
@@ -435,7 +439,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
                 try:
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
-                    #self.ui.tableWidget.clear()
+                    self.ui.label_3.setText(tree.find('body').find('totalCount').text + " 건 검색")
                     for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
@@ -613,8 +617,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         self.founds = None
         self.addr = None
         self.pageNum = 1
-        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
-        
+        if checkIOFDoc(): 
+            informOfFoundsXMLDoc.unlink()
+            informOfFoundsXMLDoc = None
         self.foundsMenu = MyFoundsMenuForm()
         self.foundsMenu.show()
         self.close()
@@ -629,8 +634,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         self.founds = None
         self.addr = None
         self.pageNum = 1
-        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
-        
+        if checkIOFDoc(): 
+            informOfFoundsXMLDoc.unlink()
+            informOfFoundsXMLDoc = None
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
         self.close()
@@ -645,8 +651,9 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         self.founds = None
         self.addr = None
         self.pageNum = 1
-        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
-    
+        if checkIOFDoc(): 
+            informOfFoundsXMLDoc.unlink()
+            informOfFoundsXMLDoc = None
         self.close()
         return
         
@@ -713,7 +720,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
                 try:
                     tree = ElementTree.fromstring(str(informOfFoundsXMLDoc.toxml()))
                     items = tree.getiterator("item")
-                    #self.ui.tableWidget.clear()
+                    self.ui.label_4.setText(tree.find('body').find('totalCount').text + " 건 검색")
                     for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
@@ -895,8 +902,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         self.startDay = None
         self.endDay = None
         self.pageNum = 1
-        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
-        
+        if checkIOFDoc(): 
+            informOfFoundsXMLDoc.unlink()
+            informOfFoundsXMLDoc=None
         self.foundsMenu = MyFoundsMenuForm()
         self.foundsMenu.show()
         self.close()
@@ -912,8 +920,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         self.startDay = None
         self.endDay = None
         self.pageNum = 1
-        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
-        
+        if checkIOFDoc(): 
+            informOfFoundsXMLDoc.unlink()
+            informOfFoundsXMLDoc = None
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
         self.close()
@@ -929,8 +938,9 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
         self.startDay = None
         self.endDay = None
         self.pageNum = 1
-        if checkIOFDoc(): informOfFoundsXMLDoc.unlink()
-        
+        if checkIOFDoc(): 
+            informOfFoundsXMLDoc.unlink()
+            informOfFoundsXMLDoc = None
         self.close()
         return
         
@@ -976,7 +986,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
                 try:
                     tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
-                    #self.ui.tableWidget.clear()
+                    self.ui.label_3.setText(tree.find('body').find('totalCount').text + " 건 검색")
                     for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
@@ -1155,8 +1165,9 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         self.losts = None
         self.location = None
         self.pageNum = 1
-        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
-        
+        if checkIOLDoc(): 
+            informOfLostsXMLDoc.unlink()
+            informOfLostsXMLDoc = None
         self.lostsMenu = MyLostsMenuForm()
         self.lostsMenu.show()
         self.close()
@@ -1171,8 +1182,9 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         self.losts = None
         self.location = None
         self.pageNum = 1
-        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
-        
+        if checkIOLDoc(): 
+            informOfLostsXMLDoc.unlink()
+            informOfLostsXMLDoc=None
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
         self.close()
@@ -1187,8 +1199,9 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         self.losts = None
         self.location = None
         self.pageNum = 1
-        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
-        
+        if checkIOLDoc(): 
+            informOfLostsXMLDoc.unlink()
+            informOfLostsXMLDoc = None
         self.close()
         return
         
@@ -1256,7 +1269,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
                     tree = ElementTree.fromstring(str(informOfLostsXMLDoc.toxml()))
                     #print(str(informOfLostsXMLDoc.toxml()))
                     items = tree.getiterator("item")
-                    #self.ui.tableWidget.clear()
+                    self.ui.label_4.setText(tree.find('body').find('totalCount').text + " 건 검색")
                     for i in range(20):
                         for j in range(4):
                             self.ui.tableWidget.setItem(i, j, QtGui.QTableWidgetItem("-"))
@@ -1440,8 +1453,9 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         self.startDay = None
         self.endDay = None
         self.pageNum = 1
-        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
-        
+        if checkIOLDoc(): 
+            informOfLostsXMLDoc.unlink()
+            informOfLostsXMLDoc=None
         self.lostsMenu = MyLostsMenuForm()
         self.lostsMenu.show()
         self.close()
@@ -1457,8 +1471,9 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         self.startDay = None
         self.endDay = None
         self.pageNum = 1
-        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
-        
+        if checkIOLDoc(): 
+            informOfLostsXMLDoc.unlink()
+            informOfLostsXMLDoc=None
         self.MainMenu = MyMainForm()
         self.MainMenu.show()
         self.close()
@@ -1474,8 +1489,9 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
         self.startDay = None
         self.endDay = None
         self.pageNum = 1
-        if checkIOLDoc(): informOfLostsXMLDoc.unlink()
-        
+        if checkIOLDoc(): 
+            informOfLostsXMLDoc.unlink()
+            informOfLostsXMLDoc=None
         self.close()
         return
 
