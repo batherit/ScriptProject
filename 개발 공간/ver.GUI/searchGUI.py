@@ -416,6 +416,7 @@ class MyFoundsAddrSearchForm(QtGui.QMainWindow):
         global informOfFoundsXMLDoc
         global item_list
         
+        self.pageNum = 1
         item_list.clear()
         self.addr = self.ui.lineEdit.text()
         self.founds = self.ui.lineEdit_2.text()     
@@ -695,7 +696,7 @@ class MyFoundsKindSearchForm(QtGui.QMainWindow):
             10: "PRK000", 11: "PRL000", 12: "PRM000", 13: "PRN000", 14: "PRO000",
             15: "PRP000", 16: "PRQ000", 17: "PRR000", 18: "PRZ000"
         }
-        
+        self.pageNum = 1
         item_list.clear()
         self.kind = goods_kind_dic[self.ui.comboBox.currentIndex()]#(self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
@@ -963,6 +964,7 @@ class MyLostsLocationSearchForm(QtGui.QMainWindow):
         global informOfLostsXMLDoc
         global item_list
         
+        self.pageNum = 1
         item_list.clear()
         self.location = self.ui.lineEdit.text()
         self.losts = self.ui.lineEdit_2.text()     
@@ -1244,6 +1246,7 @@ class MyLostsKindSearchForm(QtGui.QMainWindow):
             15: "PRP000", 16: "PRQ000", 17: "PRR000", 18: "PRZ000"
         }
         
+        self.pageNum = 1
         item_list.clear()
         self.kind = goods_kind_dic[self.ui.comboBox.currentIndex()]#(self.items_list[self.ui.comboBox.currentIndex()].childNodes)[0].firstChild.nodeValue
         self.startDay = self.ui.lineEdit.text()
